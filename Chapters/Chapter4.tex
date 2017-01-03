@@ -4,28 +4,58 @@
 
 \label{Chapter4} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
-We are trying to estimate the limits of self attribution of a distorted movement and will do so by estimating the just noticeable difference (JND) using the adaptive staircase method introduced by [ref]. This method changes the intensity of the distortion based on whether the subject judged the last trial as distorted. This last piece of knowledge is gathered using a Yes/No question: "Did the movements you saw exactly correspond to the movements you performed?"
+We are trying to estimate the limits of self attribution of a distorted movement and will do so by estimating the just noticeable difference (JND) of the distortion made to the visual stimuli. This is achieved by using the adaptive staircase method introduced by [ref]. This method changes the intensity of the distortion based on whether the subject judged the last trial as distorted, which is gathered using a Yes/No prompt called the detection question : "Did the movements you saw exactly correspond to the movements you performed?"
 \\\\
-While the whole set of IK goals will be distorted during the experiment, we will be focusing on the hand movement.
+While the whole set of IK goals will be distorted during the experiment, we will be focusing on the dominant hand movement.
 
-\section{Hypotheses}
+\section{Just Noticeable Difference}
 
-The hypotheses we have for the experiment are the following:
+The JND will be measured in term of $\gamma$, the strength of the distortion. In general, if $\gamma = -0.5$ the subjects are hindered by having to travel $50\%$ more than the distance between the targets, whereas if $\gamma = 0.5$ the movement will be amplified and the required motion will be reduced by $50\%$.
+\\\\
+Due to the nature of the Egocentric Coordinates and how the distortion is applied (respectively detailed in chapters \ref{Chapter2} and \ref{Chapter3}), this will not exactly be a metric of the difference in the distance that the subjects have to cover in order to reach the target, such as the metric used by [ref to Henrique]. It however gives a good understanding of the strength and the effect of the applied distortion.
+
+\section{Hypothesis}
+
+The hypothesis we have for the experiment is the following:
 
 \begin{labeling}{H1}
-  \item [H1] The JND will be higher when the distortion is positive.
-  \item [H2] The Cosine function will have a higher JND than the Strength one.
+  \item [H1] The absolute value of the JND will be higher when the distortion is positive.
 \end{labeling}
+
+\section{Equipment and Software}
+
+The HMD used for this experiment is the Oculus Rift in its first consumer version, with a resolution of 0 x 0 pixels per eye and a refresh rate of \SI{90}{\hertz}.
+Some more words on head and body tracking, with references to Eray's paper [ref].
 
 \section{Experiment design}
 
-We manipulate two factors, namely the orientation of the distortion (positive or negative), and the distortion function itself (Strength or Cosine). See chapter \ref{Chapter3} for a complete overview of these consepts.
+We manipulate two factors: the sign of the distortion (positive or negative), respectively yielding a helped and hindered movement, and the starting position of the task (chest of leg). See chapter \ref{Chapter3} for a complete overview of the concept of distortion and its sign.
 \\\\
-The experiment itself is perform in a seated position in order to avoid any unnecessary movement of the lower limbs, and has the subject reach six successive target located at various positions both in space and on their skin.
+We consider the starting position as a factor because of the nature of the distortion, which causes horizontal movements to be slightly more distorted. This is due to the proximity of many chest-located reference points as opposed to only four leg segments, thus having the sum of all relative displacement vectors diverting the hand position in the forward direction.
+
+\subsection{Task}
+
+The experiment itself is perform in a seated position in order to avoid any unnecessary movement of the lower limbs, and has the subject reach three successive target, one of which is in the air in front of them, and the two others are located at various locations on their skin. The reaching task is performed with the directing hand and the subjects are instructed to keep their other hand at their side.
 \\\\
-The target will alternate between "on skin" (ST) and "in the air" (AT), and the subjects are required to use their right hand to perorm the reaching motion.
+The first target T1 to be displayed is one on the skin and requires the subjects to perform a self-contact in order to activate it. After a random time between \num{200} and \SI{300}{\milli\second}, the target activates. The position of the air target T2 is then computed such that the subjects have to move a predefined distance $d$ between T1 and T2, as well as between T2 and T3 once the air target is reached. This is achieved by computing the intersection between the two spheres of radius $d$ centered on T1 and T3, and chosing the topmost position.
 \\\\
-One experiment run consists of a reaching task where the subjects have to move their right hand from one target to the other. The targets will show in alternating order between ST and AT in order to maximize the amplitude of the movements.
+One experiment run consists of a reaching task, followed by the detection question. Based on the answer to this question, the experiment software modifies the distortion as follows:
+
+\begin{labeling}{"No" and $\gamma = 0$}
+  \item ["Yes"] The discrepancy is increased.
+  \item ["No" and $\gamma \neq 0$] The discrepancy is decreased.
+  \item ["No" and $\gamma = 0$] The parameter is not changed, given that this would invert the sign of the distortion.
+\end{labeling}
+
+The ammount of each increment or decrement is dynamic: it starts at \num{0.1} and is halved after the first staircase turn. That value is then kept for the rest of that staircase. The staicase is completed either when the subjects change direction 7 times or when they performed 20 trials in that staircase.
+
+\subsection{Procedure}
+
+The subjects are welcomed and introduced to the protocol described here, and then introduced to the tracking equipment. A characterization form is then filled in by the subjects during this first part of the experiment, with background questions regarding any previous VR experiment or experience with HMDs. They are then asked to remove their shoes and to wear the motion caputre suit. A calibration is then performed as described by [ref to Eray's paper].
+\\\\
+Before beginning the actual staircase trials, a familiarization phase takes place. The subjects briefly interact with the virtual environment without any distortion, so that they correctly embody the avatar and understand the question process.
+\\\\
+More on the next steps later.
 
 \section{Subjects}
 

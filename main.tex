@@ -27,7 +27,7 @@
 %oneside, % Two side (alternating margins) for binding by default, uncomment to switch to one side
 chapterinoneline,% Have the chapter title next to the number in one single line
 english, % ngerman for German
-onehalfspacing,%singlespacing, % Single line spacing, alternatives: onehalfspacing or doublespacing
+singlespacing, % Single line spacing, alternatives: onehalfspacing or doublespacing
 %draft, % Uncomment to enable draft mode (no pictures, no links, overfull hboxes indicated)
 %nolistspacing, % If the document is onehalfspacing or doublespacing, uncomment this to set spacing in lists to single
 %liststotoc, % Uncomment to add the list of figures/tables/etc to the table of contents
@@ -42,6 +42,8 @@ headsepline, % Uncomment to get a line under the header
 
 %\usepackage{palatino} % Use the Palatino font by default
 \usepackage{fourier}
+
+\usepackage{siunitx}
 
 \usepackage[backend=bibtex,style=ieee,natbib=true]{biblatex} % Use the bibtex backend with the authoryear citation style (which resembles APA)
 
@@ -60,8 +62,8 @@ headsepline, % Uncomment to get a line under the header
 \geometry{
 	paper=a4paper, % Change to letterpaper for US letter
 	inner=2.5cm, % Inner margin
-	outer=3.8cm, % Outer margin
-	bindingoffset=2cm, % Binding offset
+	outer=2.5cm, % Outer margin
+	bindingoffset=1.2cm, % Binding offset
 	top=1.5cm, % Top margin
 	bottom=1.5cm, % Bottom margin
 	%showframe,% show how the type block is set on the page
