@@ -1,0 +1,5 @@
+PWD C:/Users/sidne/Documents/EPFL/Semestre courant/PDM/IIG/Reports and papers/my/Chapters
+INPUT C:/Users/sidne/AppData/Local/MiKTeX/2.9/miktex/data/le/pdftex/pdflatex.fmt
+INPUT Chapter4.tex
+OUTPUT Chapter4.log
+INPUT C:/Program Files/MiKTeX 2.9/fonts/tfm/public/cm/cmbx10.tfm
