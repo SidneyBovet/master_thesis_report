@@ -4,9 +4,9 @@
 
 \label{Chapter4} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
-We are trying to estimate the limits of self attribution of a distorted movement and will do so by estimating the just noticeable difference (JND) of the distortion made to the visual stimuli. This is achieved by using the adaptive staircase method introduced by [ref]. This method changes the intensity of the distortion based on whether the subject judged the last trial as distorted, which is gathered using a Yes/No prompt called the detection question : "Did the movements you saw exactly correspond to the movements you performed?"
+We are trying to estimate the limits of self attribution of a distorted movement and will do so by estimating the just noticeable difference (JND) in visual stimuli discrepency. This means estimating the just noticeable distortion made to the movement and hence the visual stimuli. The JND is estimated by using the adaptive staircase method introduced by [ref].
 \\\\
-While the whole set of IK goals will be distorted during the experiment, we will be focusing on the dominant hand movement.
+This method tries to estimate the JND by finding an upper and a lower bound for that value. These are found by changing the intensity of the distortion, based on whether the subject judged the last trial as distorted or not, and the JND is computed as the mean of the last few staircase turns (i.e.\ going from an increasing trend to a decreasing one or vice-versa). The dection judgment is gathered using a Yes/No prompt called the detection question : "Did the movements you saw exactly correspond to the movements you performed?"
 
 \section{Just Noticeable Difference}
 
@@ -35,9 +35,9 @@ We consider the starting position as a factor because of the nature of the disto
 
 \subsection{Task}
 
-The experiment itself is perform in a seated position in order to avoid any unnecessary movement of the lower limbs, and has the subject reach three successive target, one of which is in the air in front of them, and the two others are located at various locations on their skin. The reaching task is performed with the directing hand and the subjects are instructed to keep their other hand at their side.
+While the whole set of IK goals will be distorted during the experiment, we will be focusing on the dominant hand movement. The task is performed in a seated position in order to avoid any unnecessary movement of the lower limbs, and has the subjects reach three successive target, one of which is in the air in front of them, and the two others are located at various locations on their skin. The reaching task is performed with the directing hand, and the subjects are instructed to keep their other hand at their side.
 \\\\
-The first target T1 to be displayed is one on the skin and requires the subjects to perform a self-contact in order to activate it. After a random time between \num{200} and \SI{300}{\milli\second}, the target activates. The position of the air target T2 is then computed such that the subjects have to move a predefined distance $d$ between T1 and T2, as well as between T2 and T3 once the air target is reached. This is achieved by computing the intersection between the two spheres of radius $d$ centered on T1 and T3, and chosing the topmost position.
+The first target T1 to be displayed is one on the skin and requires the subjects to perform a self-contact in order to activate it. After a random time between \num{200} and \SI{300}{\milli\second}, the target activates. The position of the air target T2 is then computed such that the subjects have to move a predefined distance $d = \SI{50}{\centi\meter}$ between T1 and T2, as well as between T2 and T3 once the air target is reached. This is achieved by computing the intersection between the two spheres of radius $d$ centered on T1 and T3, and chosing the topmost position. A more detailed explanation of how this is achieved can be found in chapter \ref{Chapter3}.
 \\\\
 One experiment run consists of a reaching task, followed by the detection question. Based on the answer to this question, the experiment software modifies the distortion as follows:
 
@@ -46,12 +46,12 @@ One experiment run consists of a reaching task, followed by the detection questi
   \item ["No" and $\gamma \neq 0$] The discrepancy is decreased.
   \item ["No" and $\gamma = 0$] The parameter is not changed, given that this would invert the sign of the distortion.
 \end{labeling}
-
-The ammount of each increment or decrement is dynamic: it starts at \num{0.1} and is halved after the first staircase turn. That value is then kept for the rest of that staircase. The staicase is completed either when the subjects change direction 7 times or when they performed 20 trials in that staircase.
+\noindent
+The amount of each increment or decrement is dynamic: it starts at \num{0.1} and is halved after the first staircase turn. That value is then kept for the rest of that staircase. The staicase is completed either when the subjects change direction 7 times or when they performed 20 trials in that staircase.
 
 \subsection{Procedure}
 
-The subjects are welcomed and introduced to the protocol described here, and then introduced to the tracking equipment. A characterization form is then filled in by the subjects during this first part of the experiment, with background questions regarding any previous VR experiment or experience with HMDs. They are then asked to remove their shoes and to wear the motion caputre suit. A calibration is then performed as described by [ref to Eray's paper].
+The subjects are welcomed and introduced to the protocol described here, and then introduced to the tracking equipment. A characterization form is then filled in by the subjects during this first part of the experiment, with background questions regarding any previous VR experiment or experience with HMDs. They are then asked to remove their shoes and to wear the motion capture suit. A calibration is then performed as described by [ref to Eray's paper].
 \\\\
 Before beginning the actual staircase trials, a familiarization phase takes place. The subjects briefly interact with the virtual environment without any distortion, so that they correctly embody the avatar and understand the question process.
 \\\\
