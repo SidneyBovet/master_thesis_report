@@ -32,12 +32,27 @@ Where $\vec{v}$ is a vector, $\hat{v}$ is its normalized counterpart, and $\gamm
 \end{align*}
 
 \noindent
-A value of $\gamma = 3$ thus indicates that the virtual movement will roughly be twice the amplitude of the registered one ($1.995 \approx 2$), while a gain of $\gamma = -3$ means one will have to travel twice as much as a perceived distance in order to cover it. Figure \ref{fig:plotsOfGamma} shows a few examples of distortion with varying $\gamma $ values. This plot, as all the other plots of this report, were obtained using the Plotly API \cite{plotly}.
+A value of $\gamma = 3$ thus indicates that the virtual movement will roughly be twice the amplitude of the registered one ($1.995 \approx 2$), while a gain of $\gamma = -3$ means one will have to travel twice as much as a perceived distance in order to cover it. Figure \ref{fig:armExamples} shows two examples of distortion, and Figure \ref{fig:plotsOfGamma} gives a few instances of distortion functions with varying $\gamma $ values. This plot, as well as all the other plots of this report, were obtained using the Plotly API \cite{plotly}.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{Figures/simple_distortion_3.png}
+        \caption{$\gamma = 3$}
+    \end{subfigure}
+    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+    %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{Figures/simple_distortion_-3.png}
+        \caption{$\gamma = -3$}
+    \end{subfigure}
+    \caption{Two examples of distortion applied to a simple IK arm with multiple segments. The gray lines are the relative displacement vectors and the red ones are their distorted counterparts.}\label{fig:armExamples}
+\end{figure}
 
 \begin{figure}[h]
-    \center{\includegraphics[width=.6\textwidth]
+    \center{\includegraphics[width=.5676\textwidth]
     {Figures/gammaValues.png}}
-    \caption{\label{fig:plotsOfGamma} An example of a few distortion functions for various values of $\gamma $}
+    \caption{An example of a few distortion functions for various values of $\gamma $.}\label{fig:plotsOfGamma}
 \end{figure}
 
 \subsection*{Other Functions}
@@ -50,7 +65,7 @@ Description and plots of the Power and Cosine functions.
 
 We added a slight modification to the definition of the position proposed by \cite{molla2017egocentric}, namely the one we modified to obtain Equation \ref{eq:DistortionOperation}, and more precisely the way $\lambda $ is defined. As explained in Appendix A.4 of \cite{molla2016precise}, it is originally computed as the product of two importance factors, proximity and orthogonality respectively denoted $\lambda_p$ and $\lambda_\bot $.
 \\\\
-Given that the justification for the latter factor mainly relies on the semantic information it conveys, and considering that it would introduce weird and complex behavior in the distortion, we decided to remove it. As an example, having the hand at a given distance of the belly and changing only its orientation with respect to that body part would cause that hand's position to be affected differently by other nearby body parts and thus be altered by our distortion model.
+Given that the justification for the latter factor mainly relies on the semantic information it conveys, and considering that it would introduce complex behaviors in the distortion, we decided to remove it. As an example, having the hand at a given distance of the belly and changing only its orientation with respect to that body part would cause that hand's position to be affected differently by other nearby body parts and thus be altered by our distortion model.
 \\\\
 The former importance factor was initially defined as $\lambda_p = \frac{1}{\norm{\vec{v}}}$. In practice we find that this formula does not give enough importance to nearby body parts, and we decided to change it slightly as $\lambda_p = \frac{1}{\norm{\vec{v}}^2}$, which more closely represents the amount of surface of an object that is visible at a distance $\norm{\vec{v}}$.
 
