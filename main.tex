@@ -45,7 +45,10 @@ headsepline, % Uncomment to get a line under the header
 
 \usepackage{siunitx}
 \usepackage{mathtools}
-\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\renewcommand{\vec}[1]{\mathbf{#1}} % in order to have the vectors in bold
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert} % for the nice double bars
 
 \usepackage[backend=bibtex,style=ieee,natbib=true]{biblatex} % Use the bibtex backend with the authoryear citation style (which resembles APA)
 

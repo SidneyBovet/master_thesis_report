@@ -8,29 +8,52 @@ In this chapter we describe how we adapted the preexisting motion capture softwa
 
 \section{Distortion model}
 
-As briefly mentioned in chapter \ref{Chapter2}, we are taking advantage of the Egocentric Coordinate formalism in order to introduce our distortion model. Formally, we modify every relative displacement vectors $\vec{v_i}$ such that:
+As briefly mentioned in chapter \ref{Chapter2}, we are taking advantage of the Egocentric Coordinate formalism in order to introduce our distortion model. Formally, we modify each relative displacement vectors $\vec{v_i}$ according to a gain $\gamma$ measured in \SI{}{\decibel}. A distorted position $\vec{p}_j$ is thus obtained using equation \ref{eq:DistortionOperation}, wich is modified using the one proposed by \cite{molla2017egocentric}.
 
 \begin{equation}
-\vec{v_i} \vcentcolon= f(\vec{v_i},\gamma )
+\label{eq:DistortionOperation}
+\vec{p}_j = \displaystyle\sum_{i=1}^{n} \hat{\lambda}\big(\vec{x}_i + f(\vec{v_i},\gamma )\big)
 \end{equation}
 
 \noindent
 And $f$ is defined as:
 \begin{equation}
-f(\vec{v},\gamma ) = \hat{v} * \left||\vec{v}\right|changeme| * 4^\gamma
+\label{eq:DistortionFunction}
+f(\vec{v},\gamma ) = \hat{v} \cdot \norm{\vec{v}} \cdot 10^{\frac{\gamma}{10}}
 \end{equation}
 
 \noindent
-Where $\vec{v}$ is a vector, $\hat{v}$ is its normalized counterpart, and $\gamma \in \mathbb{R}$. The $4^\gamma$ is here for readability purpose: when $\gamma = 0.5$ the distortion makes each vector
-\\\\
+Where $\vec{v}$ is a vector, $\hat{v}$ is its normalized counterpart, and $\gamma \in \mathbb{R}$. The last factor, $10^{\frac{\gamma}{10}}$, comes from the definition of a gain, in \SI{}{\decibel} \cite{book:decibel}:
 
+\begin{align*}
+    \text{gain} = \gamma &= 10 \cdot \log_{10} (\frac{P_1}{P_2})\\
+    10\gamma &= \log_{10} (\text{slope})\\
+    \text{slope} &= 10^{\frac{\gamma}{10}}.
+\end{align*}
+
+\noindent
+A value of $\gamma = 3$ thus indicates that the virtual movement will roughly be twice the amplitude of the registered one ($1.995 \approx 2$), while a gain of $\gamma = -3$ means one will have to travel twice as much as a perceived distance in order to cover it. Figure \ref{fig:plotsOfGamma} shows a few examples of distortion with varying $\gamma $ values. This plot, as all the other plots of this report, were obtained using the Plotly API \cite{plotly}.
+
+\begin{figure}[h]
+    \center{\includegraphics[width=.6\textwidth]
+    {Figures/gammaValues.png}}
+    \caption{\label{fig:plotsOfGamma} An example of a few distortion functions for various values of $\gamma $}
+\end{figure}
 
 \subsection*{Other Functions}
 
-Before resolving to use a simple linear function for our experimentation process, we tried out different functions that we think are of interest for further applications. Two of these functions are descibed here as a reference for further investigation.
+Before deciding to use a simple, thus easier to quantify, linear function for our experimentation process, we tried out different functions that we think are of interest for further applications. Two of these functions are described here as a reference for further investigation.
 \\\\
 Description and plots of the Power and Cosine functions.
 
+\section{Egocentric Coordinates}
+
+We added a slight modification to the definition of the position proposed by \cite{molla2017egocentric}, namely the one we modified to obtain Equation \ref{eq:DistortionOperation}, and more precisely the way $\lambda $ is defined. As explained in Appendix A.4 of \cite{molla2016precise}, it is originally computed as the product of two importance factors, proximity and orthogonality respectively denoted $\lambda_p$ and $\lambda_\bot $.
+\\\\
+Given that the justification for the latter factor mainly relies on the semantic information it conveys, and considering that it would introduce weird and complex behavior in the distortion, we decided to remove it. As an example, having the hand at a given distance of the belly and changing only its orientation with respect to that body part would cause that hand's position to be affected differently by other nearby body parts and thus be altered by our distortion model.
+\\\\
+The former importance factor was initially defined as $\lambda_p = \frac{1}{\norm{\vec{v}}}$. In practice we find that this formula does not give enough importance to nearby body parts, and we decided to change it slightly as $\lambda_p = \frac{1}{\norm{\vec{v}}^2}$, which more closely represents the amount of surface of an object that is visible at a distance $\norm{\vec{v}}$.
+
 \section{Reachable Sphere}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ultricies lacinia euismod. Nam tempus risus in dolor rhoncus in interdum enim tincidunt. Donec vel nunc neque. In condimentum ullamcorper quam non consequat. Fusce sagittis tempor feugiat. Fusce magna erat, molestie eu convallis ut, tempus sed arcu. Quisque molestie, ante a tincidunt ullamcorper, sapien enim dignissim lacus, in semper nibh erat lobortis purus. Integer dapibus ligula ac risus convallis pellentesque.
+A few words on the concept of reachable sphere and how it might help at the limits of the reachable space.
