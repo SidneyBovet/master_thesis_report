@@ -8,7 +8,22 @@ In this chapter we describe how we adapted the preexisting motion capture softwa
 
 \section{Distortion model}
 
-As briefly mentioned in chapter \ref{Chapter2}, we are taking advantage of the Egocentric Coordinate formalism in order to introduce our distortion model. Formally, we modify each relative displacement vectors $\vec{v_i}$ according to a gain $\gamma$ measured in \SI{}{\decibel}. A distorted position $\vec{p}_j$ is thus obtained using equation \ref{eq:DistortionOperation}, wich is modified using the one proposed by \cite{molla2017egocentric}.
+As briefly mentioned in chapter \ref{Chapter2}, we are taking advantage of the Egocentric Coordinate formalism in order to introduce our distortion model. We are modifying each relative displacement vector as specified in Equation \ref{eq:DistortionOperation} according to a function that we are going to detail in the next few lines.
+\\\\
+For ease of experimentation and understandability, we are looking for a linear function $f(x) = ax + b$. Figure \ref{fig:armExamples} gives an example of what we aim to achieve, while Figure \ref{fig:plotsOfGamma} below gives a more mathematical point of view of the distortion we are looking for, especially in terms of $a$, the slope of the function. This plot, as well as all of the other plots of this report, were obtained using the Plotly API \cite{plotly}.
+
+\begin{figure}[h]
+    \center{\includegraphics[width=.7\textwidth]
+    {Figures/gamma_values.png}}
+    \caption{An example of a few distortion functions for various values of slope $a$ and gain $\gamma $.}\label{fig:plotsOfGamma}
+\end{figure}
+
+\noindent
+First of all we want to preserve self-haptic contacts. Such contact happens when a relative displacement vector $\vec{v} = \vec{0}$, which means that we need $f(0) = 0$, and thus $b = 0$.
+\\\\
+Intuitively, the slopes should be arranged around 1 which we want to correspong to a gain of $\gamma = 0$. One can also figure out that there is a correspondance between slopes below and above the line $f(x) = x$. For instance, for a given virtual distance to cover, a slope of \num{0.5} makes the traveling distance twice as long, whereas a slope of \num{2} halves the required movement.
+\\\\
+Formally, we modify each relative displacement vectors $\vec{v}_i$ according to a gain $\gamma$ measured in \SI{}{\decibel}. A distorted position $\vec{p}_j$ is thus obtained using equation \ref{eq:DistortionOperation}, wich has been obtained by modifying the definition proposed by \cite{molla2017egocentric}:
 
 \begin{equation}
 \label{eq:DistortionOperation}
@@ -23,16 +38,16 @@ f(\vec{v},\gamma ) = \hat{v} \cdot \norm{\vec{v}} \cdot 10^{\frac{\gamma}{10}}
 \end{equation}
 
 \noindent
-Where $\vec{v}$ is a vector, $\hat{v}$ is its normalized counterpart, and $\gamma \in \mathbb{R}$. The last factor, $10^{\frac{\gamma}{10}}$, comes from the definition of a gain, in \SI{}{\decibel} \cite{book:decibel}:
+Where $\vec{v}$ is a vector, $\hat{v}$ is its normalized counterpart, and $\gamma \in \mathbb{R}$. The last factor, $10^{\frac{\gamma}{10}}$, comes from the definition of a gain, in \SI{}{\decibel} \cite{book:decibel}, based on two values $P_1$ and $P_2$ of a single, yet undefined unit:
 
 \begin{align*}
     \text{gain} = \gamma &= 10 \cdot \log_{10} (\frac{P_1}{P_2})\\
-    10\gamma &= \log_{10} (\text{slope})\\
+    \frac{\gamma}{10} &= \log_{10} (\text{slope})\\
     \text{slope} &= 10^{\frac{\gamma}{10}}.
 \end{align*}
 
 \noindent
-A value of $\gamma = 3$ thus indicates that the virtual movement will roughly be twice the amplitude of the registered one ($1.995 \approx 2$), while a gain of $\gamma = -3$ means one will have to travel twice as much as a perceived distance in order to cover it. Figure \ref{fig:armExamples} shows two examples of distortion, and Figure \ref{fig:plotsOfGamma} gives a few instances of distortion functions with varying $\gamma $ values. This plot, as well as all the other plots of this report, were obtained using the Plotly API \cite{plotly}.
+A value of $\gamma = 3$ thus indicates that the virtual movement will roughly be twice the amplitude of the registered one ($1.995 \approx 2$), while a gain of $\gamma = -3$ means one will have to travel twice as big (\num{0.501}) as a perceived distance in order to cover it. Figure \ref{fig:armExamples} shows two examples of distortion, and Figure \ref{fig:plotsOfGamma} gives a few instances of distortion functions with varying $\gamma $ values.
 
 \begin{figure}
     \centering
@@ -40,19 +55,13 @@ A value of $\gamma = 3$ thus indicates that the virtual movement will roughly be
         \includegraphics[width=\textwidth]{Figures/simple_distortion_3.png}
         \caption{$\gamma = 3$}
     \end{subfigure}
-    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
     %(or a blank line to force the subfigure onto a new line)
     \begin{subfigure}[b]{0.2\textwidth}
         \includegraphics[width=\textwidth]{Figures/simple_distortion_-3.png}
         \caption{$\gamma = -3$}
     \end{subfigure}
     \caption{Two examples of distortion applied to a simple IK arm with multiple segments. The gray lines are the relative displacement vectors and the red ones are their distorted counterparts.}\label{fig:armExamples}
-\end{figure}
-
-\begin{figure}[h]
-    \center{\includegraphics[width=.5676\textwidth]
-    {Figures/gammaValues.png}}
-    \caption{An example of a few distortion functions for various values of $\gamma $.}\label{fig:plotsOfGamma}
 \end{figure}
 
 \subsection*{Other Functions}
