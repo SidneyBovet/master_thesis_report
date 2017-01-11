@@ -10,7 +10,7 @@ In this chapter we describe how we adapted the preexisting motion capture softwa
 
 \subsection*{Linear Function}
 
-As briefly mentioned in chapter \ref{Chapter2}, we are taking advantage of the Egocentric Coordinate formalism in order to introduce our distortion model. We modify each relative displacement vectors $\vec{v}_i$ according to some value $\gamma$. A distorted position $\vec{p}_j$ is thus obtained using equation \ref{eq:DistortionOperation}, wich has been obtained by modifying the definition proposed by \cite{molla2017egocentric}, using a function that we are going to detail in the next few lines.
+As briefly mentioned in chapter \ref{Chapter2}, we are taking advantage of the Egocentric Coordinate formalism in order to introduce our distortion model. We modify each relative displacement vectors $\vec{v}_i$ according to some value $\gamma$. A distorted position $\vec{p}_j$ is thus obtained using equation \ref{eq:DistortionOperation}, which has been obtained by modifying the definition proposed by \cite{molla2017egocentric}, using a function that we are going to detail in the next few lines.
 
 \begin{equation}
 \label{eq:DistortionOperation}
@@ -29,7 +29,7 @@ For ease of experimentation and understandability, we are looking for a linear f
 \noindent
 First of all we want to preserve self-haptic contacts. Such contact happens when a relative displacement vector $\vec{v} = \vec{0}$, which means that we need $f(0) = 0$, and thus $b = 0$.
 \\\\
-Intuitively, the slopes should be arranged around 1 which we want to correspong to $\gamma = 0$. One can also figure out that there is a correspondance between slopes below and above the line $f(x) = x$. For instance, for a given virtual distance to cover, a slope of \num{0.5} makes the traveling distance twice as long, whereas a slope of \num{2} halves the required movement.
+Intuitively, the slopes should be arranged around 1 which we want to correspond to $\gamma = 0$. One can also figure out that there is a correspondence between slopes below and above the line $f(x) = x$. For instance, for a given virtual distance to cover, a slope of \num{0.5} makes the traveling distance twice as long, whereas a slope of \num{2} halves the required movement.
 \\\\
 Formally, we are modifying each relative displacement vector as specified in Equation \ref{eq:DistortionOperation}, with $\gamma$ representing a gain, measured in \SI{}{\decibel}, and $f$ defined as:
 
