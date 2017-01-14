@@ -2,16 +2,24 @@
 
 \chapter{Related Work} % Main chapter title
 
-\label{Chapter2} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
+\label{Chapter2}
 
 \section{Motion Capture and Inverse Kinematics}
 
-Reference to \cite{molla2013singularity} and \cite{molla2017egocentric}.
+Reference to \cite{molla2013singularity,molla2017egocentric}.
 
 \subsection{Egocentric Coordinates}
 
-More details on \cite{molla2017egocentric} and \cite{molla2016precise}.
+The idea of using reference points others than the world's origin in order to describe a position---an IK goal for instance---is already a few years old \cite{al2013relationship}, but Molla et al.\ \cite{molla2017egocentric,molla2016precise} took it a step further by using one's own body parts as reference points. This allows to correctly map the semantics of performed motions onto avatars of different proportions and sizes. Such body-centered coordinate system is named Egocentric.
 
-\section{Stroke Rehabilitation}
+A crude body representation is computed from markers placed on the performer. The limbs are represented as capsules while the trunk and head are sampled on multiple points and then translated into a series of triangles forming a crude mesh.Given such body representation with $n$ body parts, a position $j$ is then represented as shown in Equation \ref{eq:EgocentricPosition}.
 
-Stroke rehabilitation techniques and research. Talk about \cite{flores2008improving} and others.
+\begin{equation}
+\label{eq:EgocentricPosition}
+\vec{p}_j = \displaystyle\sum_{i=1}^{n} \hat{\lambda}(\vec{x}_i + \vec{v}_i)
+\end{equation}
+
+Where $\vec{x}_i$ is the closest point on surface $i$, $\vec{v}_i$ is the relative displacement vector going from $\vec{x}_i$ to $\vec{p}_i$, and $\lambda $ is a normalization factor. This last value is computed as follows:
+
+% equations for lambda t and lambda d
+%$\frac{1}{\norm{1\vec{v}_i}}$ and is further linearly normalized such that $\sum \hat{\lambda} = 1$.

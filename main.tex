@@ -32,7 +32,7 @@ singlespacing, % Single line spacing, alternatives: onehalfspacing or doublespac
 %nolistspacing, % If the document is onehalfspacing or doublespacing, uncomment this to set spacing in lists to single
 %liststotoc, % Uncomment to add the list of figures/tables/etc to the table of contents
 %toctotoc, % Uncomment to add the main table of contents to the table of contents
-%parskip, % Uncomment to add space between paragraphs
+parskip, % Uncomment to add space between paragraphs
 %nohyperref, % Uncomment to not load the hyperref package
 headsepline, % Uncomment to get a line under the header
 ]{MastersDoctoralThesis} % The class file specifying the document structure
@@ -46,6 +46,8 @@ headsepline, % Uncomment to get a line under the header
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{scrextend} % label-based lists
+\addtokomafont{labelinglabel}{\sffamily}
 \usepackage{siunitx}
 \usepackage{mathtools}
 \usepackage{amsmath}
@@ -59,9 +61,6 @@ headsepline, % Uncomment to get a line under the header
 
 \usepackage[autostyle=true]{csquotes} % Required to generate language-dependent quotes in the bibliography
 
-% label-based lists
-\usepackage{scrextend}
-\addtokomafont{labelinglabel}{\sffamily}
 
 %----------------------------------------------------------------------------------------
 %	MARGIN SETTINGS

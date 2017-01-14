@@ -10,7 +10,7 @@ In this chapter we describe how we adapted the preexisting motion capture softwa
 
 \subsection*{Linear Function}
 
-As briefly mentioned in chapter \ref{Chapter2}, we are taking advantage of the Egocentric Coordinate formalism in order to introduce our distortion model. We modify each relative displacement vectors $\vec{v}_i$ according to some value $\gamma$. A distorted position $\vec{p}_j$ is thus obtained using equation \ref{eq:DistortionOperation}, which has been obtained by modifying the definition proposed by \cite{molla2017egocentric}, using a function that we are going to detail in the next few lines.
+As briefly mentioned in chapter \ref{Chapter2}, we are taking advantage of the Egocentric Coordinate formalism in order to introduce our distortion model. We modify each relative displacement vectors $\vec{v}_i$ according to some value $\gamma$. A distorted position $\vec{p}_j$ is thus obtained using equation \ref{eq:DistortionOperation}, which has been obtained by modifying Equation \ref{eq:EgocentricPosition} using a function that we are going to detail in the next few lines.
 
 \begin{equation}
 \label{eq:DistortionOperation}
@@ -28,9 +28,9 @@ For ease of experimentation and understandability, we are looking for a linear f
 
 \noindent
 First of all we want to preserve self-haptic contacts. Such contact happens when a relative displacement vector $\vec{v} = \vec{0}$, which means that we need $f(0) = 0$, and thus $b = 0$.
-\\\\
+
 Intuitively, the slopes should be arranged around 1 which we want to correspond to $\gamma = 0$. One can also figure out that there is a correspondence between slopes below and above the line $f(x) = x$. For instance, for a given virtual distance to cover, a slope of \num{0.5} makes the traveling distance twice as long, whereas a slope of \num{2} halves the required movement.
-\\\\
+
 Formally, we are modifying each relative displacement vector as specified in Equation \ref{eq:DistortionOperation}, with $\gamma$ representing a gain, measured in \SI{}{\decibel}, and $f$ defined as:
 
 \begin{equation}
@@ -68,15 +68,15 @@ A value of $\gamma = 3$ thus indicates that the virtual movement will roughly be
 \subsection*{Other Functions}
 
 Before deciding to use a simple, thus easier to quantify, linear function for our experimentation process, we tried out different functions that we think are of interest for further applications. Two of these functions are described here as a reference for further investigation.
-\\\\
+
 Description and plots of the Power and Cosine functions.
 
 \section{Egocentric Coordinates}
 
 We added one more modification to the definition of the position proposed by \cite{molla2017egocentric} which we modified to obtain Equation \ref{eq:DistortionOperation}, and more precisely the way $\lambda $ is defined. As explained in Appendix A.4 of \cite{molla2016precise}, it is originally computed as the product of two importance factors, proximity and orthogonality respectively denoted $\lambda_p$ and $\lambda_\bot $.
-\\\\
+
 Given that the justification for the latter factor mainly relies on the semantic information it conveys, and considering that it would introduce complex behaviors in the distortion, we decided to remove it. As an example, having the hand at a given distance of the chest and changing only its orientation with respect to that body part would cause that hand's position to be affected differently by other nearby body parts and thus be altered by our distortion model.
-\\\\
+
 The former importance factor was initially defined as $\lambda_p = \frac{1}{\norm{\vec{v}}}$. In practice we find that this formula does not give enough importance to nearby body parts, and we decided to change it slightly as $\lambda_p = \frac{1}{\norm{\vec{v}}^2}$. --Mention angle solide.-- % which more closely represents the amount of surface of an object that is visible at a distance $\norm{\vec{v}}$.
 
 \section{Reachable Sphere}
