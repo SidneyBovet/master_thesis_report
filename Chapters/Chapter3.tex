@@ -30,7 +30,8 @@ Figure \ref{fig:armExamples} shows an example of a distorted position obtained b
         \includegraphics[width=\textwidth]{Figures/simple_distortion_-3.png}
         \caption{$\gamma = -3$}
     \end{subfigure}
-    \caption{Two examples of our linear distortion applied to a simple IK arm with multiple segments. The gray lines are the relative displacement vectors and the red ones are their distorted counterparts. Similarly, the gray arms represent the pose the real arm would take whereas the red ones show the two resulting distorted poses.}\label{fig:armExamples}
+    \caption{Two examples of our linear distortion applied to a simple IK arm with multiple segments. The gray lines are the relative displacement vectors and the red ones are their distorted counterparts. Similarly, the gray arms represent the pose the real arm would take whereas the red ones show the two resulting distorted poses.}
+    \label{fig:armExamples}
 \end{figure}
 
 We will now describe the function we will be using in our subsequent experiment, and then propose a distortion expression that may be better-suited for real-world applications.
@@ -108,11 +109,19 @@ Based on an expression proposed by Khoury \cite{khoury2015human}, this function 
     f(d, a_r, s) = a_r \cdot \Bigg(\frac{d}{a_r}\Bigg)^{2^{-s}}
 \end{equation*}
 
+As one can observe on Figure \ref{fig:otherDistortions}, this function has the advantage of smoothly transitioning from a non-distorted position to a maximum discrepancy, and then back to an undistorted position around $d=a_r$.
+
+More observations on the exponential function, particularly on the high velocity discrepancy around the ends of the distorted range.
+
 \subsubsection{Cosine}
 
 Observations made on the previous function lead us to designing this second function.
 
-Obviously, being smoother in terms of position near both ends of the distorted area leads to trade-offs. In our case the function introduces higher velocity discrepancies 
+\begin{equation*}
+    f(d, a_r, s) = \frac{s}{2}\Bigg(1 - \cos\Big(\frac{2\pi}{a_r} \cdot d\Big)\Bigg) + d
+\end{equation*}
+
+Obviously, being smoother in terms of velocity near both ends of the distorted area leads to trade-offs. In our case the function introduces higher velocity discrepancies at other locations, as one can observe on Figure \ref{fig:otherDistortionsCos}. At higher strengths (e.g.\ $s=0.4$) the function even forces the virtual hand to go backwards in order to rejoin the real position before approaching $a_r$.
 
 \section{Egocentric Normalization Factor}
 
