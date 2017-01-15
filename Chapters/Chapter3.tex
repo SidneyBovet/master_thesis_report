@@ -13,12 +13,29 @@ As briefly mentioned in chapter \ref{Chapter2}, we are taking advantage of the E
 
 \begin{equation}
 \label{eq:DistortionOperation}
-\vec{p}_j = \displaystyle\sum_{i=1}^{n} \hat{\lambda}\big(\vec{x}_i + f(\vec{v}_i,\gamma )\big)
+\vec{p}_j = \displaystyle\sum_{i=1}^{n} \hat{\lambda}\big(\vec{x}_i + D(\vec{v}_i,\gamma )\big)
 \end{equation}
 
-We first describe the function we will be using in our subsequent experiment, and then propose a better-suited expression that may be used in real-world applications.
+Figure \ref{fig:armExamples} shows an example of a distorted position obtained by changing the length of all vectors $\vec{v}_i$.
 
-\subsection*{Linear Function}
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{Figures/simple_distortion_3.png}
+        \caption{$\gamma = 3$}
+    \end{subfigure}
+    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+    %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{Figures/simple_distortion_-3.png}
+        \caption{$\gamma = -3$}
+    \end{subfigure}
+    \caption{Two examples of our linear distortion applied to a simple IK arm with multiple segments. The gray lines are the relative displacement vectors and the red ones are their distorted counterparts. Similarly, the gray arms represent the pose the real arm would take whereas the red ones show the two resulting distorted poses.}\label{fig:armExamples}
+\end{figure}
+
+We will now describe the function we will be using in our subsequent experiment, and then propose a distortion expression that may be better-suited for real-world applications.
+
+\subsection{Linear Function}
 
 For ease of experimentation and understandability, we are looking for a linear function $f(x) = ax + b$. Figure \ref{fig:armExamples} gives an example of what we aim to achieve, while Figure \ref{fig:plotsOfGamma} below gives a more mathematical point of view of the distortion we are looking for, especially in terms of $a$, the slope of the function. This plot, as well as all of the other plots of this report, were obtained using the Plotly API \cite{plotly}.
 
@@ -36,10 +53,10 @@ Formally, we are modifying each relative displacement vector as specified in Equ
 
 \begin{equation}
 \label{eq:DistortionFunction}
-f(\vec{v},\gamma ) = \hat{v} \cdot \norm{\vec{v}} \cdot 10^{\frac{\gamma}{10}}
+D(\vec{v},\gamma ) = \hat{\vec{v}} \cdot \norm{\vec{v}} \cdot 10^{\frac{\gamma}{10}}
 \end{equation}
 
-Where $\vec{v}$ is a vector, $\hat{v}$ is its normalized counterpart, and $\gamma \in \mathbb{R}$. The last factor, $10^{\frac{\gamma}{10}}$, comes from the definition of a gain, in \SI{}{\decibel} \cite{book:decibel}, based on two values $P_1$ and $P_2$ of a single, yet undefined unit:
+In this equation, $\vec{v}$ is a vector, $\hat{\vec{v}}$ is its normalized counterpart, and $\gamma \in \mathbb{R}$. The last factor, $10^{\frac{\gamma}{10}}$, comes from the definition of a gain, in \SI{}{\decibel} \cite{book:decibel}, based on two values $P_1$ and $P_2$ of a single, yet undefined unit:
 
 \begin{align*}
     \text{gain} = \gamma &= 10 \cdot \log_{10} (\frac{P_1}{P_2})\\
@@ -47,30 +64,55 @@ Where $\vec{v}$ is a vector, $\hat{v}$ is its normalized counterpart, and $\gamm
     \text{slope} &= 10^{\frac{\gamma}{10}}.
 \end{align*}
 
-A value of $\gamma = 3$ thus indicates that the virtual movement will roughly be twice the amplitude of the registered one ($1.995 \approx 2$), while a gain of $\gamma = -3$ means one will have to travel twice as big a distance (\num{0.501}) as perceived in order to cover it. Figure \ref{fig:armExamples} shows two examples of distortion, and Figure \ref{fig:plotsOfGamma} gives a few instances of distortion functions with varying $\gamma $ values.
+A value of $\gamma = 3$ thus indicates that the virtual movement will roughly be twice the amplitude of the registered one ($1.995 \approx 2$), while a gain of $\gamma = -3$ means one will have to travel twice as big a distance (\num{0.501}) as perceived in order to cover it. Figure \ref{fig:armExamples} shows two examples of distortion, and Figure \ref{fig:plotsOfGamma} gives a few instances of this linear distortion functions with varying values of $\gamma $ and the corresponding slope $a$.
 
-\begin{figure}
+\subsection{Other Functions}
+\label{sec:otherFunctions}
+Before deciding to use a simpler, thus easier to quantify, linear function for our experimentation process, we tried out different functions that we think are of interest for further applications. Two of these functions are described here as a reference for further investigation.
+
+As for our linear function, we require the distortion to be null around $\norm{\vec{v}} = 0$. Similarly, we introduce an action range $a_r$ after which the distortion should be null again. The general form of the function applied to our relative displacement vectors then becomes the one described in Equation \ref{eq:distortionCase}.
+
+\begin{equation}
+    \label{eq:distortionCase}
+    D(\vec{v}, s, a_r) =
+    \begin{cases}
+        \hat{v} \cdot \norm{\vec{v}} \cdot f(\norm{\vec{v}}, s, a_r)    &\text{if } \norm{\vec{v}} \leq a_r\\
+        \vec{v}                                                         &\text{otherwise}
+    \end{cases}
+\end{equation}
+
+Note that we changed the `$\gamma $' parameter for `$s$', which is due to this parameter no longer denoting a cleanly defined gain, but a vaguer concept of strength. Two notable instances of the function $f$ were implemented. They are shown in Figure \ref{fig:otherDistortions} and are described hereafter.
+
+\begin{figure}[h]
     \centering
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[width=\textwidth]{Figures/simple_distortion_3.png}
-        \caption{$\gamma = 3$}
+    \begin{subfigure}[b]{.45\textwidth}
+        \includegraphics[width=\textwidth]{Figures/exponential_distortion.png}
+        \caption{Exponential}
+        \label{fig:otherDistortionsExp}
     \end{subfigure}
-    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-    %(or a blank line to force the subfigure onto a new line)
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[width=\textwidth]{Figures/simple_distortion_-3.png}
-        \caption{$\gamma = -3$}
+    ~
+    \begin{subfigure}[b]{.45\textwidth}
+        \includegraphics[width=\textwidth]{Figures/cosine_distortion.png}
+        \caption{Cosine}
+        \label{fig:otherDistortionsCos}
     \end{subfigure}
-    \caption{Two examples of our linear distortion applied to a simple IK arm with multiple segments. The gray lines are the relative displacement vectors and the red ones are their distorted counterparts. Similarly, the gray arms represent the pose the real arm would take whereas the red ones show the two resulting distorted poses.}\label{fig:armExamples}
+    \caption{Multiple instances of the two alternative distortion functions we propose in section \ref{sec:otherFunctions}. Both have been plotted using $a_r = 1$, only varying the strength parameter $s$.}
+    \label{fig:otherDistortions}
 \end{figure}
 
-\subsection*{Other Functions}
+\subsubsection{Exponential}
 
-Before deciding to use a simple---thus easier to quantify---linear function for our experimentation process, we tried out different functions that we think are of interest for further applications. Two of these functions are described here as a reference for further investigation.
+Based on an expression proposed by Khoury \cite{khoury2015human}, this function has the following form:
 
+\begin{equation*}
+    f(d, a_r, s) = a_r \cdot \Bigg(\frac{d}{a_r}\Bigg)^{2^{-s}}
+\end{equation*}
 
+\subsubsection{Cosine}
 
-Description and plots of the Power and Cosine functions. Ref to Khoury \cite{khoury2015human} for his exponential function.
+Observations made on the previous function lead us to designing this second function.
+
+Obviously, being smoother in terms of position near both ends of the distorted area leads to trade-offs. In our case the function introduces higher velocity discrepancies 
 
 \section{Egocentric Normalization Factor}
 
