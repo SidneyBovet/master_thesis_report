@@ -1,25 +1,49 @@
 % Chapter Template
 
-\chapter{Related Work} % Main chapter title
+\chapter{Egocentric Coordinates}
 
 \label{Chapter2}
 
+In this chapter we briefly cover the Inverse Kinematics problem and how its parameters are acquired, and we then dive more deeply in the description of a special coordinate system based on the relative positions of different body parts around a point.
+
 \section{Motion Capture and Inverse Kinematics}
 
-Reference to \cite{molla2013singularity,molla2017egocentric}.
+As stated by Paul \cite{paul1981robot}, Inverse Kinematics (IK) refers to the use of kinematic equations of a chain of rigid bodies in order to produce the desired pose of that chain so that it satisfies a position---or goal---for that chain's end effector. Such techniques are useful for instance to compute the joint position of an industrial robot whose task is to tighten a screw at a given location. Another, more interesting application to us of such algorithms is to compute the pose of a virtual body. Such avatar is described as a kinematic chain, and its feet, elbows, knees or head positions are considered as IK goals. An IK solver may be numeric \cite{goldenberg1985complete,manocha1994efficient}, or it may be analytical, such as the one proposed by Molla et al.\ \cite{molla2013singularity}. In this case, a closed-form expression is provided that takes one or several IK goals as input, and gives a vector of joint positions and orientations to be set in order to satisfy the goals.
 
-\subsection{Egocentric Coordinates}
+These desired positions may be defined by some game engine so that a character points a tool at a desired location, but they are also often obtained using motion capture techniques, as mentioned in Section \ref{sec:mocap}. Such techniques usually take advantage of special suits equipped with markers, whose individual positions are acquired either by the marker itself, or using tracking devices. As explained by \cite{west1995motion}, a suit may for instance be fitted with magnetic sensors and used in a room where a coil emits a given magnetic field, so that each sensor knows its position and orientation relative to the emitting base, acting as an absolute reference. Another way to acquire a position is to place a blinking LED et that location and tracking it using several cameras. If their position is known \textit{a priori}, then the marker's position can be recovered using triangulation.
 
-The idea of using reference points others than the world's origin in order to describe a position---an IK goal for instance---is already a few years old \cite{al2013relationship}, but Molla et al.\ \cite{molla2017egocentric,molla2016precise} took it a step further by using one's own body parts as reference points. This allows to correctly map the semantics of performed motions onto avatars of different proportions and sizes. Such body-centered coordinate system is named Egocentric.
+All the above techniques focus on getting the absolute position (and sometimes orientation) of an IK goal. This is a necessary step for any animation application, but an end effector's position need not be expressed as an absolute value throughout the application's pipeline. The semantic information conveyed by a performer may in fact be better preserved by using an alternative, relative coordinate system.
 
-A crude body representation is computed from markers placed on the performer. The limbs are represented as capsules while the trunk and head are sampled on multiple points and then translated into a series of triangles forming a crude mesh.Given such body representation with $n$ body parts, a position $j$ is then represented as shown in Equation \ref{eq:EgocentricPosition}.
+\section{Egocentric Coordinates}
+\label{sec:egocentric}
+
+The idea of using reference points others than the origin of the world's axes in order to describe an IK goal is already a few years old \cite{al2013relationship}, but Molla et al.\ \cite{molla2017egocentric,molla2016precise} took it a step further by using one's own body parts as reference points. This allows to correctly map the semantics of performed motions onto avatars of different proportions and sizes. Such body-centered coordinate system is called Egocentric.
+
+A crude body representation is computed from markers placed on the performer. The limbs are represented as capsules while the trunk and head are sampled at multiple locations and then translated into a series of triangles forming a crude mesh. Given such body representation with $n$ body parts, the position $\vec{p}_j$ of an IK goal $j$ is then represented as shown in Equation \ref{eq:EgocentricPosition}.
 
 \begin{equation}
 \label{eq:EgocentricPosition}
 \vec{p}_j = \displaystyle\sum_{i=1}^{n} \hat{\lambda}(\vec{x}_i + \vec{v}_i)
 \end{equation}
 
-Where $\vec{x}_i$ is the closest point on surface $i$, $\vec{v}_i$ is the relative displacement vector going from $\vec{x}_i$ to $\vec{p}_i$, and $\lambda $ is a normalization factor. This last value is computed as follows:
+The closest point on surface $i$ is denoted $\vec{x}_i$, while $\vec{v}_i$ is the relative displacement vector going from $\vec{x}_i$ to $\vec{p}_i$, and $\lambda $ is a normalization factor. This last value is computed as $\lambda = \lambda_p \cdot \lambda_\perp$, whose proximity and orthogonality factors are defined in Equations \ref{eq:lambda_p} and \ref{eq:lambda_t}. $\hat{\lambda}$ is obtained by further linearly normalize $\lambda$ such that $\sum \hat{\lambda} = 1$.
 
-% equations for lambda t and lambda d
-%$\frac{1}{\norm{1\vec{v}_i}}$ and is further linearly normalized such that $\sum \hat{\lambda} = 1$.
+\begin{align}
+    \label{eq:lambda_p}
+    \textbf{Proximity: } \lambda_p &=
+    \begin{cases}
+        \frac{1}{\epsilon}          &\text{if } \norm{\vec{v}} \leq \epsilon\\
+        \frac{1}{\norm{\vec{v}}}    &\text{otherwise}
+    \end{cases}
+    \\
+    \label{eq:lambda_t}
+    \textbf{Orthogonality: } \lambda_\perp &=
+    \begin{cases}
+        \cos(\epsilon)      &\text{if } \cos(\alpha) \leq \epsilon\\
+        \cos(\alpha)        &\text{otherwise}
+    \end{cases}
+\end{align}
+
+In Equation \ref{eq:lambda_t}, $\alpha$ denotes the angle between the surface normal $\vec{n}$ at the closes point $\vec{x}$ of a body part, and the relative displacement vector $\vec{v}$. The presence of $\epsilon$, a tiny constant, helps prevent instability due to floating point precision numbers. The justification for measuring orthogonality is that (1) if a surface normal points at a joint, chances are they are interacting in some way, and (2) orthogonality holds semantic information about gestures, such as holding a hand in front of the heart.
+
+The movement deformation we introduce in this work relies heavily on this Egocentric representation of the IK goals, and more precisely acts on the relative displacement vectors $\vec{v}$ described above. The next chapter describes our distortion model, as well as exactly how we adapted the Egocentric formalism in order to apply this distortion to an avatar's movements.

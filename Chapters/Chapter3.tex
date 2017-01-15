@@ -4,11 +4,10 @@
 
 \label{Chapter3} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
-In this chapter we describe how we adapted the preexisting motion capture software in order to obtain the desired distorted behavior.
+In this chapter we begin by describing our distortion model and what function we used, and then we show how we adapted the preexisting motion capture software in order to obtain the desired distorted behavior.
 
 \section{Distortion model}
 
-\subsection*{Linear Function}
 
 As briefly mentioned in chapter \ref{Chapter2}, we are taking advantage of the Egocentric Coordinate formalism in order to introduce our distortion model. We modify each relative displacement vectors $\vec{v}_i$ according to some value $\gamma$. A distorted position $\vec{p}_j$ is thus obtained using equation \ref{eq:DistortionOperation}, which has been obtained by modifying Equation \ref{eq:EgocentricPosition} using a function that we are going to detail in the next few lines.
 
@@ -17,7 +16,10 @@ As briefly mentioned in chapter \ref{Chapter2}, we are taking advantage of the E
 \vec{p}_j = \displaystyle\sum_{i=1}^{n} \hat{\lambda}\big(\vec{x}_i + f(\vec{v}_i,\gamma )\big)
 \end{equation}
 
-\noindent
+We first describe the function we will be using in our subsequent experiment, and then propose a better-suited expression that may be used in real-world applications.
+
+\subsection*{Linear Function}
+
 For ease of experimentation and understandability, we are looking for a linear function $f(x) = ax + b$. Figure \ref{fig:armExamples} gives an example of what we aim to achieve, while Figure \ref{fig:plotsOfGamma} below gives a more mathematical point of view of the distortion we are looking for, especially in terms of $a$, the slope of the function. This plot, as well as all of the other plots of this report, were obtained using the Plotly API \cite{plotly}.
 
 \begin{figure}[h]
@@ -26,19 +28,17 @@ For ease of experimentation and understandability, we are looking for a linear f
     \caption{An example of a few distortion functions for various values of slope $a$ and gain $\gamma $.}\label{fig:plotsOfGamma}
 \end{figure}
 
-\noindent
-First of all we want to preserve self-haptic contacts. Such contact happens when a relative displacement vector $\vec{v} = \vec{0}$, which means that we need $f(0) = 0$, and thus $b = 0$.
+First of all we want to preserve self-haptic contacts. Such contact happens when a relative displacement vector satisfies $\norm{\vec{v}} = 0$, which means that we need $f(0) = 0$, and thus $b = 0$.
 
-Intuitively, the slopes should be arranged around 1 which we want to correspond to $\gamma = 0$. One can also figure out that there is a correspondence between slopes below and above the line $f(x) = x$. For instance, for a given virtual distance to cover, a slope of \num{0.5} makes the traveling distance twice as long, whereas a slope of \num{2} halves the required movement.
+Intuitively, the slopes should be arranged around $a=1$, which results in no distortion at all and that we want to correspond to $\gamma = 0$. One can also figure out that there is a correspondence between slopes above and below the line $f(x) = x$. For instance, for a given virtual distance to cover, a slope of \num{0.5} makes the traveling distance twice as long, whereas a slope of \num{2} halves the required movement.
 
-Formally, we are modifying each relative displacement vector as specified in Equation \ref{eq:DistortionOperation}, with $\gamma$ representing a gain, measured in \SI{}{\decibel}, and $f$ defined as:
+Formally, we are modifying each relative displacement vector as specified in Equation \ref{eq:DistortionOperation}, with $\gamma$ representing a gain, measured in \SI{}{\decibel}, and $f$ defined by Equation \ref{eq:DistortionFunction} below.
 
 \begin{equation}
 \label{eq:DistortionFunction}
 f(\vec{v},\gamma ) = \hat{v} \cdot \norm{\vec{v}} \cdot 10^{\frac{\gamma}{10}}
 \end{equation}
 
-\noindent
 Where $\vec{v}$ is a vector, $\hat{v}$ is its normalized counterpart, and $\gamma \in \mathbb{R}$. The last factor, $10^{\frac{\gamma}{10}}$, comes from the definition of a gain, in \SI{}{\decibel} \cite{book:decibel}, based on two values $P_1$ and $P_2$ of a single, yet undefined unit:
 
 \begin{align*}
@@ -47,8 +47,7 @@ Where $\vec{v}$ is a vector, $\hat{v}$ is its normalized counterpart, and $\gamm
     \text{slope} &= 10^{\frac{\gamma}{10}}.
 \end{align*}
 
-\noindent
-A value of $\gamma = 3$ thus indicates that the virtual movement will roughly be twice the amplitude of the registered one ($1.995 \approx 2$), while a gain of $\gamma = -3$ means one will have to travel twice as big (\num{0.501}) as a perceived distance in order to cover it. Figure \ref{fig:armExamples} shows two examples of distortion, and Figure \ref{fig:plotsOfGamma} gives a few instances of distortion functions with varying $\gamma $ values.
+A value of $\gamma = 3$ thus indicates that the virtual movement will roughly be twice the amplitude of the registered one ($1.995 \approx 2$), while a gain of $\gamma = -3$ means one will have to travel twice as big a distance (\num{0.501}) as perceived in order to cover it. Figure \ref{fig:armExamples} shows two examples of distortion, and Figure \ref{fig:plotsOfGamma} gives a few instances of distortion functions with varying $\gamma $ values.
 
 \begin{figure}
     \centering
@@ -62,20 +61,20 @@ A value of $\gamma = 3$ thus indicates that the virtual movement will roughly be
         \includegraphics[width=\textwidth]{Figures/simple_distortion_-3.png}
         \caption{$\gamma = -3$}
     \end{subfigure}
-    \caption{Two examples of distortion applied to a simple IK arm with multiple segments. The gray lines are the relative displacement vectors and the red ones are their distorted counterparts. Similarly, the gray arm represents the pose the real arm would take whereas the red one shows the resulting distorted pose. }\label{fig:armExamples}
+    \caption{Two examples of our linear distortion applied to a simple IK arm with multiple segments. The gray lines are the relative displacement vectors and the red ones are their distorted counterparts. Similarly, the gray arms represent the pose the real arm would take whereas the red ones show the two resulting distorted poses.}\label{fig:armExamples}
 \end{figure}
 
 \subsection*{Other Functions}
 
-Before deciding to use a simple, thus easier to quantify, linear function for our experimentation process, we tried out different functions that we think are of interest for further applications. Two of these functions are described here as a reference for further investigation.
+Before deciding to use a simple---thus easier to quantify---linear function for our experimentation process, we tried out different functions that we think are of interest for further applications. Two of these functions are described here as a reference for further investigation.
 
-Description and plots of the Power and Cosine functions.
 
-\section{Egocentric Coordinates}
 
-We added one more modification to the definition of the position proposed by \cite{molla2017egocentric} which we modified to obtain Equation \ref{eq:DistortionOperation}, and more precisely the way $\lambda $ is defined. As explained in Appendix A.4 of \cite{molla2016precise}, it is originally computed as the product of two importance factors, proximity and orthogonality respectively denoted $\lambda_p$ and $\lambda_\bot $.
+Description and plots of the Power and Cosine functions. Ref to Khoury \cite{khoury2015human} for his exponential function.
 
-Given that the justification for the latter factor mainly relies on the semantic information it conveys, and considering that it would introduce complex behaviors in the distortion, we decided to remove it. As an example, having the hand at a given distance of the chest and changing only its orientation with respect to that body part would cause that hand's position to be affected differently by other nearby body parts and thus be altered by our distortion model.
+\section{Egocentric Normalization Factor}
+
+We added one more modification to the definition of the position proposed by \cite{molla2017egocentric} which we modified to obtain Equation \ref{eq:DistortionOperation}, and more precisely the way $\lambda $ is defined. As originally explained by \cite{molla2016precise} as well as in Section \ref{sec:egocentric}, it is computed as the product of two importance factors, proximity and orthogonality, respectively denoted $\lambda_p$ and $\lambda_\perp $.
 
 The former importance factor was initially defined as $\lambda_p = \frac{1}{\norm{\vec{v}}}$. In practice we find that this formula does not give enough importance to nearby body parts, and we decided to change it slightly as $\lambda_p = \frac{1}{\norm{\vec{v}}^2}$. --Mention angle solide.-- % which more closely represents the amount of surface of an object that is visible at a distance $\norm{\vec{v}}$.
 
