@@ -4,9 +4,9 @@
 
 \label{Chapter4} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
-We are trying to estimate the limits of self attribution of a distorted movement. We will do so by estimating the just noticeable difference (JND) in visual stimuli discrepency. This means estimating the just noticeable \textit{distortion} made to the movement and hence the visual stimuli. The JND is estimated by using the adaptive staircase method introduced by [missing ref].
+We are trying to estimate the limits of self attribution of a distorted movement. We will do so by estimating the just noticeable difference (JND) in visual stimuli discrepancy. This means estimating the just noticeable \textit{distortion} made to the movement and hence the visual stimuli. The JND is estimated by using the adaptive staircase method introduced by [missing ref].
 
-This method tries to estimate the JND by finding an upper and a lower bound for that value. These are found by changing the intensity of the distortion, based on whether the subject judged the last trial as distorted or not, and the JND is computed as the mean of the last few staircase turns (i.e.\ going from an increasing trend to a decreasing one or vice-versa). The dection judgment is gathered using a Yes/No prompt called the detection question : "Did the movements you saw exactly correspond to the movements you performed?"
+This method tries to estimate the JND by finding an upper and a lower bound for that value. These are found by changing the intensity of the distortion, based on whether the subject judged the last trial as distorted or not, and the JND is computed as the mean of the last few staircase turns (i.e.\ going from an increasing trend to a decreasing one or vice-versa). The detection judgment is gathered using a Yes/No prompt called the detection question : "Did the movements you saw exactly correspond to the movements you performed?"
 
 \section{Just Noticeable Difference}
 
@@ -37,7 +37,7 @@ We manipulate three factors: the sign of the distortion (positive or negative), 
 
 \subsection{Task}
 
-While the whole set of IK goals will be distorted during the experiment, we will be focusing on the dominant hand movement. The task is performed in a seated position in order to avoid any unnecessary movement of the lower limbs, and has the subjects reach three targets. One of them may be in the air in front of them, while the starting and finishing location is the same realative to their skin. The reaching task is performed with the directing hand, and the subjects are instructed to keep their other hand at their side.
+While the whole set of IK goals will be distorted during the experiment, we will be focusing on the dominant hand movement. The task is performed in a seated position in order to avoid any unnecessary movement of the lower limbs, and has the subjects reach three targets. One of them may be in the air in front of them, while the starting and finishing location is the same relative to their skin. The reaching task is performed with the directing hand, and the subjects are instructed to keep their other hand at their side.
 
 There are four different target orders: \textbf{Chest-Air-Chest}, \textbf{Leg-Air-Leg}, \textbf{Chest-Leg-Chest}, and \textbf{Leg-Chest-Leg}. Both chest and leg targets are located as depicted on Figure \ref{fig:targetPlacement} and are picked according to the subject's handedness: left-handed subjects for instance will have to reach for their left thigh and right shoulder. The first target to be displayed, $T_1$, is always one on the skin and requires the subjects to perform a self-contact in order to activate it. After a random time between \num{200} and \SI{300}{\milli\second}, the target activates. Then the subject moves the hand to the next target, which activates after \SI{100}{\milli\second}. Once this is done the subject goes back to $T_1$, and the detection question is finally asked.
 
@@ -51,7 +51,7 @@ If the sequence requires an intermediary air target, its position is computed su
 
 
 
-One experiment---or staircase---run consists of a reaching task, followed by the detection question. Based on the answer to this question, the experiment software modifies the  distortion for the next staircase run as follows:
+One experiment---or staircase---run consists of a reaching task, followed by the detection question. Based on the answer to this question, the experiment software modifies the distortion for the next staircase run as follows:
 \begin{quote}
     \begin{labeling}{"No" and $\gamma = 0$}
       \item ["Yes"] The discrepancy is increased.
@@ -60,11 +60,11 @@ One experiment---or staircase---run consists of a reaching task, followed by the
     \end{labeling}
 \end{quote}
 
-The amount of each increment or decrement is dynamic: it starts at \num{0.5} and is halved after the first staircase turn. That value is then kept for the rest of that staircase. The staicase is completed either when the subjects change direction 7 times or when they performed 20 trials in that staircase.
+The amount of each increment or decrement is dynamic: it starts at \num{0.5} and is halved after the first staircase turn. That value is then kept for the rest of that staircase. The staircase is completed either when the subjects change direction 7 times or when they performed 20 trials in that staircase.
 
 \subsection{Procedure}
 
-The subjects are welcomed and introduced to the protocol described here, and then introduced to the tracking equipment. A consent form is signed and a characterization form is then filled in by the subjects. The questionnaire features background questions such as age and handedness, but also regarding any previous VR experiment or experience with HMDs. They are then asked to remove their shoes and helped in putting the motion capture suit on. A calibration is then performed as described by \cite{molla2017egocentric} and mentionned in Chapter \ref{Chapter2}.
+The subjects are welcomed and introduced to the protocol described here, and then introduced to the tracking equipment. A consent form is signed and a characterization form is then filled in by the subjects. The questionnaire features background questions such as age and handedness, but also regarding any previous VR experiment or experience with HMDs. They are then asked to remove their shoes and helped in putting the motion capture suit on. A calibration is then performed as described by \cite{molla2017egocentric} and mentioned in Chapter \ref{Chapter2}.
 
 Before beginning the actual staircase trials, a familiarization phase takes place. The subjects goes through two shortened staircases with constant distortion. The first one has no distortion at all while the second has a big one. The subjects are instructed to always answer ``Yes'' during the first staircase, and ``No'' during the second one, so that they become familiar with the whole procedure.
 
@@ -72,6 +72,6 @@ More on the next steps later.
 
 \section{Subjects}
 
-A few physical limitations will be applied to filter the subjects of this experiment. They will be required to be right-handed for ease of software developement, and will need to be both smaller than 180cm and have an body mass index between 18 and 27. The latter is due to our motion capture equipment and especially the suit on which the markers are placed.
+A few physical limitations will be applied to filter the subjects of this experiment. They will be required to be right-handed for ease of software development, and will need to be both smaller than 180cm and have a body mass index between 18 and 27. The latter two criteria are due to our motion capture equipment and especially the suit on which the markers are placed.
 
-We also require that they have a normal or corrected to normal vision, and be fluent in both written and spoken english.
+We also require that they have a normal or corrected to normal vision, and be fluent in both written and spoken English.
