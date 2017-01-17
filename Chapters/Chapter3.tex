@@ -15,7 +15,7 @@ As briefly mentioned in Chapter \ref{Chapter2}, we are taking advantage of the E
 \vec{p}_j = \displaystyle\sum_{i=1}^{n} \hat{\lambda}\big(\vec{x}_i + D(\vec{v}_i,\gamma )\big)
 \end{equation}
 
-Figure \ref{fig:armExamples} shows an example of a distorted position obtained by changing the length of all vectors $\vec{v}_i$. This arm model was implemented from the ground up using the FABRIK algorithm as an IK solver \cite{aristidou2011fabrik}. More considerations on this particular implementation can be found in Section \ref{sec:implementation}.
+Figure \ref{fig:armExamples} shows an example of a distorted position obtained by changing the length of all vectors $\vec{v}_i$. This arm model was implemented from the ground up using the FABRIK algorithm as an IK solver \cite{aristidou2011fabrik}. More considerations on this particular implementation can be found in Section \ref{sec:testingApp}.
 
 \begin{figure}[h]
     \centering
@@ -130,23 +130,35 @@ The former importance factor was initially defined as $\lambda_p = \frac{1}{\nor
 
 \section{Reachable Sphere}
 
-Molla et al. \cite{molla2017egocentric} propose a special case for handling the position of the feet: they use the projection of the ankle on the floor as an additional reference point, hence adding one Egocentric component to the coordinates of that joint. We think interactions close to the far end of the reachable volume of each arm may benefit from such an additional reference point as well, especially when considering distortions made to the wrist position. (i.e.\ a sphere of radius equal to the arm's length centered on the shoulder) 
+Molla et al. \cite{molla2017egocentric} proposed a special case for handling the position of the feet: they use the orthogonal projection of the ankle on the floor as an additional reference point, hence adding one Egocentric component to the coordinates of that joint. We think that interactions close to the far end of the reachable volume of each arm may benefit from such an additional reference point as well, especially when considering distortions made to the wrist position. To do so, we imagined the addition of a sphere of radius equal to the arm's length and centered on the shoulder of that arm, that we call ``reachable sphere''. When approaching full arm extension, the position of the wrist relative to that reachable sphere becomes prominent and forces to distortion to act as if one was approaching one's skin: it would tend towards a null distortion. Figure \ref{} shows 
 
 A few words on the concept of reachable sphere and how it might help at the limits of the reachable space.
 
-\section{Implementation}
-\label{sec:implementation}
-The simple kinematic chain we used for preliminary testing and to obtain for instance Figure \ref{fig:armExamples} was built from scratch using the description of the Egocentric Formalism provided by \cite{molla2016precise}. For ease of use, we integrated a preexisting IK solver to this implementation, namely the KABRIK algorithm proposed by Aristidou and Lasenby \cite{aristidou2011fabrik}. We encountered one issue when using this testing application once the distortion was implemented: depending on the sequence of movements of the IK goal, the actual kinematic chain and the distorted one began to have diverging intermediary joint positions, such as shown in Figure \ref{fig:divergence}.
+\section{Testing Application}
+\label{sec:testingApp}
+The simple kinematic chain we used for preliminary testing and to obtain for instance Figure \ref{fig:armExamples} was built using the description of the Egocentric Formalism provided by \cite{molla2016precise}. For ease of use, we integrated a preexisting IK solver to this implementation, namely the FABRIK algorithm proposed by Aristidou and Lasenby \cite{aristidou2011fabrik}. We encountered one issue when using this testing application once the distortion was implemented: depending on the sequence of movements of the IK goal, the actual kinematic chain and the distorted one began to have diverging intermediary joint positions, such as shown in Figure \ref{fig:divergence}.
 
 \begin{figure}[h]
     \centering
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[width=\textwidth]{Figures/simple_distortion_3.png}
+    \begin{subfigure}[b]{0.22\textwidth}
+        \includegraphics[width=\textwidth]{Figures/arm_noDivergence.png}
+        \caption{Initial pose.}
+        \label{subfig:divergenceInitial}
     \end{subfigure}
     ~
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[width=\textwidth]{Figures/simple_distortion_-3.png}
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{Figures/arm_divergence.png}
+        \caption{Diverging poses.}
+        \label{subfig:divergence}
     \end{subfigure}
-    \caption{.}
+    ~
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{Figures/arm_initDivergence.png}
+        \caption{With pose re-initialization.}
+        \label{subfig:initDivergence}
+    \end{subfigure}
+    \caption{In gray are the real arms whose movements are supposedly captured through their respective IK goals (yellow spheres inside the last capsule), and in red are the distorted poses, which are the ones a end user would see in the virtual environment. An example of initial IK chains (left) and the diverging poses after a certain sequence of movements (center). The pose can then be corrected by initializing the distorted arm at the real arm's position (right).}
     \label{fig:divergence}
 \end{figure}
+
+Two options exist in order to solve this issue. The first one is to introduce secondary IK goals at what can be considered as the `ellbows' of the arm. The second option is to re-initialize the distorted arm at the real arm pose before running the IK iterations. While we chose the latter for our testing application, the former is probably better-suited for real world applications, where markers are available all over the body and may serve to determine such secondary IK goal.
