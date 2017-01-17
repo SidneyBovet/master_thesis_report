@@ -1,22 +1,21 @@
 % Chapter Template
 
-\chapter{Implementation} % Main chapter title
+\chapter{Distortion Model} % Main chapter title
 
 \label{Chapter3} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
-In this chapter we begin by describing our distortion model and what function we used, and then we show how we adapted the preexisting motion capture software in order to obtain the desired distorted behavior.
+In this chapter we begin by describing how we adapted the preexisting motion retargeting software in order to obtain the desired distorted behavior, and then we detail our distortion model and what function we used. The end of the chapter is dedicated to additional modifications we propose to the work of Molla et al.\ \cite{molla2017egocentric}.
 
-\section{Distortion model}
+\section{Egocentric Coordinates Distortion}
 
-
-As briefly mentioned in chapter \ref{Chapter2}, we are taking advantage of the Egocentric Coordinate formalism in order to introduce our distortion model. We modify each relative displacement vectors $\vec{v}_i$ according to some value $\gamma$. A distorted position $\vec{p}_j$ is thus obtained using equation \ref{eq:DistortionOperation}, which has been obtained by modifying Equation \ref{eq:EgocentricPosition} using a function that we are going to detail in the next few lines.
+As briefly mentioned in Chapter \ref{Chapter2}, we are taking advantage of the Egocentric Coordinate formalism in order to introduce our distortion model. We modify each relative displacement vectors $\vec{v}_i$ according to some value $\gamma$. A distorted position $\vec{p}_j$ is thus obtained using equation \ref{eq:DistortionOperation}, which has been obtained by modifying Equation \ref{eq:EgocentricPosition} using a function that we are going to detail in the next few lines.
 
 \begin{equation}
 \label{eq:DistortionOperation}
 \vec{p}_j = \displaystyle\sum_{i=1}^{n} \hat{\lambda}\big(\vec{x}_i + D(\vec{v}_i,\gamma )\big)
 \end{equation}
 
-Figure \ref{fig:armExamples} shows an example of a distorted position obtained by changing the length of all vectors $\vec{v}_i$.
+Figure \ref{fig:armExamples} shows an example of a distorted position obtained by changing the length of all vectors $\vec{v}_i$. This arm model was implemented from the ground up using the FABRIK algorithm as an IK solver \cite{aristidou2011fabrik}. More considerations on this particular implementation can be found in Section \ref{sec:implementation}.
 
 \begin{figure}[h]
     \centering
@@ -36,12 +35,12 @@ Figure \ref{fig:armExamples} shows an example of a distorted position obtained b
 
 We will now describe the function we will be using in our subsequent experiment, and then propose a distortion expression that may be better-suited for real-world applications.
 
-\subsection{Linear Function}
+\section{Linear Function}
 
-For ease of experimentation and understandability, we are looking for a linear function $f(x) = ax + b$. Figure \ref{fig:armExamples} gives an example of what we aim to achieve, while Figure \ref{fig:plotsOfGamma} below gives a more mathematical point of view of the distortion we are looking for, especially in terms of $a$, the slope of the function. This plot, as well as all of the other plots of this report, were obtained using the Plotly API \cite{plotly}.
+We are considering candidate functions $D$ to use in Equation \ref{eq:DistortionOperation}. For ease of experimentation and clarity, we are looking for a linear function $f(x) = ax + b$. Figure \ref{fig:armExamples} gives an example of what we aim to achieve, while Figure \ref{fig:plotsOfGamma} below gives a more mathematical point of view of the distortion we are looking for, especially in terms of $a$, the slope of the function. This plot, as well as all of the other plots of this report, were obtained using the Plotly API \cite{plotly}.
 
 \begin{figure}[h]
-    \center{\includegraphics[width=.7\textwidth]
+    \center{\includegraphics[width=.8\textwidth]
     {Figures/gamma_values.png}}
     \caption{An example of a few distortion functions for various values of slope $a$ and gain $\gamma $.}\label{fig:plotsOfGamma}
 \end{figure}
@@ -67,7 +66,7 @@ In this equation, $\vec{v}$ is a vector, $\hat{\vec{v}}$ is its normalized count
 
 A value of $\gamma = 3$ thus indicates that the virtual movement will roughly be twice the amplitude of the registered one ($1.995 \approx 2$), while a gain of $\gamma = -3$ means one will have to travel twice as big a distance (\num{0.501}) as perceived in order to cover it. Figure \ref{fig:armExamples} shows two examples of distortion, and Figure \ref{fig:plotsOfGamma} gives a few instances of this linear distortion functions with varying values of $\gamma $ and the corresponding slope $a$.
 
-\subsection{Other Functions}
+\section{Other Functions}
 \label{sec:otherFunctions}
 Before deciding to use a simpler, thus easier to quantify, linear function for our experimentation process, we tried out different functions that we think are of interest for further applications. Two of these functions are described here as a reference for further investigation.
 
@@ -101,7 +100,7 @@ Note that we changed the `$\gamma $' parameter for `$s$', which is due to this p
     \label{fig:otherDistortions}
 \end{figure}
 
-\subsubsection{Exponential}
+\subsection*{Exponential}
 
 Based on an expression proposed by Khoury \cite{khoury2015human}, this function has the following form:
 
@@ -113,7 +112,7 @@ As one can observe on Figure \ref{fig:otherDistortions}, this function has the a
 
 More observations on the exponential function, particularly on the high velocity discrepancy around the ends of the distorted range.
 
-\subsubsection{Cosine}
+\subsection*{Cosine}
 
 Observations made on the previous function led us to designing this second function.
 
@@ -131,4 +130,23 @@ The former importance factor was initially defined as $\lambda_p = \frac{1}{\nor
 
 \section{Reachable Sphere}
 
+Molla et al. \cite{molla2017egocentric} propose a special case for handling the position of the feet: they use the projection of the ankle on the floor as an additional reference point, hence adding one Egocentric component to the coordinates of that joint. We think interactions close to the far end of the reachable volume of each arm may benefit from such an additional reference point as well, especially when considering distortions made to the wrist position. (i.e.\ a sphere of radius equal to the arm's length centered on the shoulder) 
+
 A few words on the concept of reachable sphere and how it might help at the limits of the reachable space.
+
+\section{Implementation}
+\label{sec:implementation}
+The simple kinematic chain we used for preliminary testing and to obtain for instance Figure \ref{fig:armExamples} was built from scratch using the description of the Egocentric Formalism provided by \cite{molla2016precise}. For ease of use, we integrated a preexisting IK solver to this implementation, namely the KABRIK algorithm proposed by Aristidou and Lasenby \cite{aristidou2011fabrik}. We encountered one issue when using this testing application once the distortion was implemented: depending on the sequence of movements of the IK goal, the actual kinematic chain and the distorted one began to have diverging intermediary joint positions, such as shown in Figure \ref{fig:divergence}.
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{Figures/simple_distortion_3.png}
+    \end{subfigure}
+    ~
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{Figures/simple_distortion_-3.png}
+    \end{subfigure}
+    \caption{.}
+    \label{fig:divergence}
+\end{figure}

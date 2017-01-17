@@ -39,19 +39,17 @@ We manipulate three factors: the sign of the distortion (positive or negative), 
 
 While the whole set of IK goals will be distorted during the experiment, we will be focusing on the dominant hand movement. The task is performed in a seated position in order to avoid any unnecessary movement of the lower limbs, and has the subjects reach three targets. One of them may be in the air in front of them, while the starting and finishing location is the same relative to their skin. The reaching task is performed with the directing hand, and the subjects are instructed to keep their other hand at their side.
 
+\begin{wrapfigure}{r}{.35\textwidth}
+    \center{\includegraphics[width=.34\textwidth]
+    {Figures/target_placement.png}}
+    \caption{An example of target placement with lines showing how its position was reconstructed. The magenta lines are the one of desired length.}\label{fig:targetPlacement}
+\end{wrapfigure}
+
 There are four different target orders: \textbf{Chest-Air-Chest}, \textbf{Leg-Air-Leg}, \textbf{Chest-Leg-Chest}, and \textbf{Leg-Chest-Leg}. Both chest and leg targets are located as depicted on Figure \ref{fig:targetPlacement} and are picked according to the subject's handedness: left-handed subjects for instance will have to reach for their left thigh and right shoulder. The first target to be displayed, $T_1$, is always one on the skin and requires the subjects to perform a self-contact in order to activate it. After a random time between \num{200} and \SI{300}{\milli\second}, the target activates. Then the subject moves the hand to the next target, which activates after \SI{100}{\milli\second}. Once this is done the subject goes back to $T_1$, and the detection question is finally asked.
 
 If the sequence requires an intermediary air target, its position is computed such that the subjects have to move a predefined distance $d = 75\%$ of arm length between $T_1$ and $T_{\text{air}}$. Given that a whole sphere of positions is possible, and in order to disambiguate that position, we require that $T_\text{air}$ is also at the same distance $d$ from the third, unused target $T_3$. The air target position therefore is on the intersection between the two spheres of radius $d$ centered on $T_1$ and $T_3$, and we chose the topmost position as a reasonable last disambiguation criterion. Figure \ref{fig:targetPlacement} shows how such position is computed.
 
-\begin{figure}[h]
-    \center{\includegraphics[width=.7\textwidth]
-    {Figures/target_placement.png}}
-    \caption{An example of target placement with lines showing how its position was reconstructed. The magenta lines are the one of desired length.}\label{fig:targetPlacement}
-\end{figure}
-
-
-
-One experiment---or staircase---run consists of a reaching task, followed by the detection question. Based on the answer to this question, the experiment software modifies the distortion for the next staircase run as follows:
+One trial---or staircase run---consists of a reaching task, followed by the detection question. Based on the answer to this question, the experiment software modifies the distortion for the next staircase run as follows:
 \begin{quote}
     \begin{labeling}{"No" and $\gamma = 0$}
       \item ["Yes"] The discrepancy is increased.
@@ -60,7 +58,13 @@ One experiment---or staircase---run consists of a reaching task, followed by the
     \end{labeling}
 \end{quote}
 
-The amount of each increment or decrement is dynamic: it starts at \num{0.5} and is halved after the first staircase turn. That value is then kept for the rest of that staircase. The staircase is completed either when the subjects change direction 7 times or when they performed 20 trials in that staircase.
+The amount of each increment or decrement is dynamic: it starts at \num{0.5} and is halved after the first staircase turn. That value is then kept for the rest of that staircase. The staircase is completed either when the subjects change direction 7 times or when they performed 20 trials in that staircase. Figure \ref{fig:trials} shows four instances of ten consecutive trial, depicting the four different initial staircases configuration used for each possible target order.
+
+\begin{figure}[h]
+    \center{\includegraphics[width=\textwidth]
+    {Figures/trials.png}}
+    \caption{Four made up partial instances of staircases. Each one features ten trials and four staircases turns, including the one happening in the last trial. The sign of the staircase is the same for each row, while the starting distortion is the same for each column.}\label{fig:trials}
+\end{figure}
 
 \subsection{Procedure}
 

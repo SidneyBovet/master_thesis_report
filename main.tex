@@ -46,6 +46,7 @@ headsepline, % Uncomment to get a line under the header
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{wrapfig} % wrapfigure: figures with wrapping text around them
 \usepackage{scrextend} % label-based lists
 \addtokomafont{labelinglabel}{\sffamily}
 \usepackage{siunitx}
@@ -80,7 +81,7 @@ headsepline, % Uncomment to get a line under the header
 %	THESIS INFORMATION
 %----------------------------------------------------------------------------------------
 
-\thesistitle{Ensuring self-haptic Consistency for Immersive Amplified Embodiment} % Your thesis title, this is used in the title and abstract, print it elsewhere with \ttitle
+\thesistitle{Ensuring Self-Haptic Consistency for Immersive Amplified Embodiment} % Your thesis title, this is used in the title and abstract, print it elsewhere with \ttitle
 \supervisor{Dr. Ronan \textsc{Boulic}} % Your supervisor's name, this is used in the title page, print it elsewhere with \supname
 \examiner{} % Your examiner's name, this is not currently used anywhere in the template, print it elsewhere with \examname
 \degree{MSc in Computer Science} % Your degree name, this is used in the title page and abstract, print it elsewhere with \degreename
@@ -88,7 +89,7 @@ headsepline, % Uncomment to get a line under the header
 \addresses{} % Your address, this is not currently used anywhere in the template, print it elsewhere with \addressname
 
 \subject{} % Your subject area, this is not currently used anywhere in the template, print it elsewhere with \subjectname
-\keywords{Vitual reality, Embodiment, Retargetting, Motion capture} % Keywords for your thesis, this is not currently used anywhere in the template, print it elsewhere with \keywordnames
+\keywords{Vitual reality, Embodiment, Retargeting, Motion capture} % Keywords for your thesis, this is not currently used anywhere in the template, print it elsewhere with \keywordnames
 \university{École Polytechnique Fédérale de Lausanne} % Your university's name and URL, this is used in the title page and abstract, print it elsewhere with \univname
 \department{\href{http://ic.epfl.ch/en}{School of Computer and Communication Sciences}} % Your department's name and URL, this is used in the title page and abstract, print it elsewhere with \deptname
 \group{\href{http://iig.epfl.ch/}{Immersive Interaction Group}} % Your research group's name and URL, this is used in the title page, print it elsewhere with \groupname
@@ -189,6 +190,8 @@ headsepline, % Uncomment to get a line under the header
 The Thesis Abstract is written here (and usually kept to just this page). The page is kept centered vertically so can expand into the blank space above the title too\ldots
 
 This project explores the possibility of distorting movements in the context of a stroke reabilitation task presented as a target-reaching VR serious game.
+
+\textbf{Keywords}: \keywordnames
 
 \end{abstract}
 
