@@ -45,9 +45,9 @@ We are considering candidate functions $D$ to use in Equation \ref{eq:Distortion
     \caption{An example of a few distortion functions for various values of slope $a$ and gain $\gamma $.}\label{fig:plotsOfGamma}
 \end{figure}
 
-First of all we want to preserve self-haptic contacts. Such contact happens when a relative displacement vector satisfies $\norm{\vec{v}} = 0$, which means that we need $f(0) = 0$, and thus $b = 0$.
+First of all we want to preserve self-haptic contacts. Such contact happens when a relative displacement vector satisfies $\norm{\vec{v}} = 0$, which means that we need $f(0) = 0$, and thus $b = 0$. Moreover, we also rejected the possibility of distorting such skin-touching positions orthogonally to the normal at the contact point because it would imply a much more complex distortion model taking into account the local topology of the body. We also feel that it would not improve the distortion behavior significantly.
 
-Intuitively, the slopes should be arranged around $a=1$, which results in no distortion at all and that we want to correspond to $\gamma = 0$. One can also figure out that there is a correspondence between slopes above and below the line $f(x) = x$. For instance, for a given virtual distance to cover, a slope of \num{0.5} makes the traveling distance twice as long, whereas a slope of \num{2} halves the required movement.
+Going back to our linear function, one may intuitively see that the slopes should be arranged around $a=1$, which results in no distortion at all and that we want to correspond to $\gamma = 0$. It can also be figured out that there is a correspondence between slopes above and below the line $f(x) = x$. For instance, for a given virtual distance to cover, a slope of \num{0.5} makes the traveling distance twice as long, whereas a slope of \num{2} halves the required movement.
 
 Formally, we are modifying each relative displacement vector as specified in Equation \ref{eq:DistortionOperation}, with $\gamma$ representing a gain, measured in \SI{}{\decibel}, and $f$ defined by Equation \ref{eq:DistortionFunction} below.
 
