@@ -16,13 +16,19 @@ Due to the nature of the Egocentric Coordinates and how the distortion is applie
 
 \section{Equipment and Software}
 
-The HMD used for this experiment is the Oculus Rift in its first consumer version, with a resolution of $1080 \times 1200$ pixels per eye and a refresh rate of \SI{90}{\hertz}.
+The HMD used for this experiment will be the Oculus Rift in its first consumer version, with a resolution of $1080 \times 1200$ pixels per eye and a refresh rate of \SI{90}{\hertz}. Head orientation is acquired using the internal sensors of the HMD in order to minimize latency, and its orientation drift around the vertical axis is corrected using a set of markers placed on it. These markers also serve to determine the position of the camera in the virtual environment.
 
----Some more words on head and body tracking, with references to \cite{molla2013singularity}.---
+Audio is delivered using a pair of Bose\textsuperscript{\textregistered} QuietComfort 35 wireless headphones. They feature high quality environmental noise cancellation and are additionally used to stream unlocalized white noise, in order to fully isolate the subjects. If needed, they are also used as a communication means between the subject and experimenter, the latter making use of a microphone.
+
+Motion capture is performed using a PhaseSpace Impulse X2 optical tracking system. The setup uses 18 infrared cameras and a suit equipped with 38 LED markers, which are arranged as described by Molla \cite{molla2016precise} in order to track limb rigid bodies.
+
+The virtual environment was developed using the Unity game engine. The room setup is derived from \cite{debarba2017embodiment} with a chair, a carpet, and a few point light sources. The carpet is here to better match the real world, in which the tracking space has a carpet on its floor. The physical chair has been measured so that it would match the virtual seat we are using. Additionally, the wall in front of the subject features textual information on the next target to be hit or on resting times.
+
+The avatar is animated using the IK and retargeting algorithms proposed by Molla et al.\ \cite{molla2013singularity,molla2017egocentric}, the latter of which is modified as described in Chapter \ref{Chapter3}.
 
 \section{Experiment design}
 
-We manipulate three factors: the sign of the distortion (positive or negative), respectively yielding a helped and hindered movement, the starting value of that distortion (either \num{0} or \SI{9}{\decibel}, and the target sequence (see below). Chapter \ref{Chapter3} gives a complete overview of the concept of distortion and its sign, as well as how it is implemented.
+We manipulate three factors: the sign of the distortion (positive or negative), respectively yielding a helped and hindered movement, the starting value of that distortion (\num{0} or \SI{3}{\decibel}, and the target sequence (see below). Chapter \ref{Chapter3} gives a complete overview of the concept of distortion and its sign, as well as how it is implemented.
 
 \subsection{Task}
 \label{sec:task}
@@ -36,24 +42,26 @@ While the whole set of IK goals will be distorted during the experiment, we will
 
 There are four different target orders: \textbf{Chest-Air-Chest} ($O_1$), \textbf{Leg-Air-Leg} ($O_2$), \textbf{Chest-Leg-Chest} ($O_3$), and \textbf{Leg-Chest-Leg} ($O_4$). Both chest and leg targets are located as depicted on Figure \ref{fig:targetPlacement} and are picked according to the subject's handedness: left-handed subjects for instance will have to reach for their left thigh and right shoulder. The first target to be displayed, $T_1$, is always one on the skin and requires the subjects to perform a self-contact in order to activate it. After a random time between \num{200} and \SI{300}{\milli\second}, the target activates. Then the subject moves the hand to the next target, which activates after \SI{100}{\milli\second}. Once this is done the subject goes back to $T_1$, and the detection question is finally asked.
 
-If the sequence requires an intermediary air target, its position is computed such that the subjects have to move a predefined distance $d = 75\%$ of arm length between $T_1$ and $T_{\text{air}}$. Given that a whole sphere of positions is possible, and in order to disambiguate that position, we require that $T_\text{air}$ is also at the same distance $d$ from the third, unused target $T_3$. The air target position therefore is on the intersection between the two spheres of radius $d$ centered on $T_1$ and $T_3$, and we chose the topmost position as a reasonable last disambiguation criterion. Figure \ref{fig:targetPlacement} shows how such position is computed.
+If the sequence requires an intermediary air target ($O_1$ and $O_2$), that target's position is computed such that the subjects have to move a predefined distance $d = 75\%$ of arm length between $T_1$ and $T_{\text{air}}$. Given that a whole sphere of positions is possible, and in order to disambiguate that position, we require that $T_\text{air}$ is also at the same distance $d$ from the third, unused target $T_3$. The air target position therefore is on the intersection between the two spheres of radius $d$ centered on $T_1$ and $T_3$, and we chose the topmost position as a reasonable last disambiguation criterion. Figure \ref{fig:targetPlacement} shows how such position is computed.
 
 One trial---or staircase run---consists of a reaching task, followed by the detection question. Based on the answer to this question, the experiment software modifies the distortion for the next staircase run as follows:
 \begin{quote}
     \begin{labeling}{"No" and $\gamma = 0$}
       \item ["Yes"] The discrepancy is increased.
       \item ["No" and $\gamma \neq 0$] The discrepancy is decreased.
-      \item ["No" and $\gamma = 0$] The parameter is not changed\footnote{We do not change the distortion in this case because this would invert the sign of the distortion, thus introducing a different distortion.}.
+      \item ["No" and $\gamma = 0$] The parameter is not changed\footnote{We do not change the distortion in this case because this would invert the sign of the distortion, thus introducing a distortion of different sign.}.
     \end{labeling}
 \end{quote}
 
-The amount of each increment or decrement is dynamic: it starts at \num{0.5} and is halved after the first staircase turn. That value is then kept for the rest of that staircase. The staircase is completed either when the subjects change direction 7 times or when they performed 20 trials in that staircase. Figure \ref{fig:trials} shows four instances of ten consecutive trial, depicting the four different initial staircases configuration used for each possible target order.
+The amount of each increment or decrement is dynamic: it starts at \num{0.5} and is halved after the first staircase turn. That value is then kept for the rest of that staircase. This helps going quickly from the starting distortion to the point where subjects are unsure whether the movement they saw was theirs, and then explores the space around that point.
 
 \begin{figure}[h]
     \center{\includegraphics[width=\textwidth]
     {Figures/trials.png}}
     \caption{Four made up partial instances of staircases. Each one features ten trials and four staircases turns, including the one happening in the last trial. The sign of the staircase is the same for each row, while the starting distortion is the same for each column.}\label{fig:trials}
 \end{figure}
+
+A staircase is completed either when the subjects change direction 7 times or when they performed 20 trials in that staircase. Figure \ref{fig:trials} shows four instances of ten consecutive trial, depicting the four different initial staircases configuration used for each possible target order.
 
 \section{Hypotheses}
 
@@ -70,7 +78,7 @@ Considering the target orders $O_n$  we introduced in Section \ref{sec:task} and
 
 H1 is based on the findings of \cite{debarba2017embodiment}, who found that a hindering movement distortion is more quickly detected than a helping one. The justifications for all other hypotheses are based on the type of movement asked of the subjects.
 
-Based on the similarity of the tasks $O_3$ and $O_4$, we believe they will exhibit similar JNDs, hence H2.
+Considering the similarity of the tasks $O_3$ and $O_4$, we believe they will exhibit similar JNDs, hence H2.
 
 H3 translates our belief that the presence or not of body parts other than the starting one (the leg in the case of $O_2$ for instance) along the path of movement have an impact on the detection threshold. The symmetry of the repartition of the said body parts when performing $O_1$ (i.e.\ the legs below and the head above) will be beneficial to the resulting motion, whereas having the whole chest on one side of the task $O_2$ and nothing on the other one will lead to an increased JND. Similarly, both $O_3$ and $O_4$ will be negatively affected due to the nature of their respective paths. \cite{burns2007macbeth}
 

@@ -4,7 +4,7 @@
 
 \label{Chapter3} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
-In this chapter we begin by describing how we adapted the preexisting motion retargeting software in order to obtain the desired distorted behavior, and then we detail our distortion model and what function we used. The end of the chapter is dedicated to additional modifications we propose to the work of Molla et al.\ \cite{molla2017egocentric}.
+In this chapter we begin by describing how we modified the preexisting motion retargeting software in order to obtain the desired distorted behavior, and then we detail our distortion model and what function we used. The end of the chapter is dedicated to additional adaptations we propose to the work of Molla et al.\ \cite{molla2017egocentric}.
 
 \section{Egocentric Coordinates Distortion}
 
@@ -166,7 +166,7 @@ Molla et al. \cite{molla2017egocentric} proposed a special case for handling the
 
 We think that interactions close to the far end of the reachable volume of each arm may benefit from such an additional reference point as well, especially when considering distortions made to the wrist position. To do so, we propose the addition of a sphere of radius equal to the arm's length and centered on the shoulder of that arm, that we call ``reachable sphere''. When approaching full arm extension, the position of the wrist relative to that reachable sphere becomes prominent and forces to distortion to act as if the hand was approaching one's skin: it would tend towards a null distortion. Figure \ref{fig:reachableSphere} illustrate the type of pose behavior we attempt to avoid by introducing this reachable sphere, as well as shows that it does almost not affect movements closer to other body parts.
 
-In the experiment described in Chapter \ref{Chapter4} we however did not implement this reachable sphere for two reasons. First, it greatly alters the linear nature of the distortion function we proposed in Section \ref{sec:linearFunction} and thus is not desired in such an experimental context. The second reason is more practical: the retargeting software is quite complex and unfortunately poorly commented, which makes such a modification very hard to achieve.
+In the experiment described in Chapter \ref{Chapter4} we however did not implement this reachable sphere for two reasons. First, it greatly alters the linear nature of the distortion function we proposed in Section \ref{sec:linearFunction} and thus is not desired in such an experimental context. The second reason is more practical: the retargeting software is quite complex and unfortunately poorly commented, which makes such a modification very hard to achieve within the timespan of this project.
 
 \section{Testing Application}
 \label{sec:testingApp}
@@ -186,9 +186,9 @@ The simple kinematic chain we used for preliminary testing and to obtain for ins
         \label{subfig:divergence}
     \end{subfigure}
     ~
-    \begin{subfigure}[b]{0.3\textwidth}
+    \begin{subfigure}[b]{0.28\textwidth}
         \includegraphics[width=\textwidth]{Figures/arm_initDivergence.png}
-        \caption{With pose re-initialization.}
+        \caption{With re-initialization.}
         \label{subfig:initDivergence}
     \end{subfigure}
     \caption{In gray are the real arms whose movements are supposedly captured through their respective IK goals (yellow spheres inside the last capsule), and in red are the distorted poses, which are the ones a end user would see in the virtual environment. An example of initial IK chains (left) and the diverging poses after a certain sequence of movements (center). The pose can then be corrected by initializing the distorted arm at the real arm's position (right).}
