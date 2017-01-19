@@ -3,7 +3,9 @@
 \chapter{Results and Discussion}
 \label{Chapter5}
 
-As briefly mentioned towards the end of Section \refsec:reachableSphere}, the code base used in this project, and particularly the retargeting part implementing the whole Egocentric Coordinate formalism, is problematic. Although well formated and making use of carefully chosen variable names, the code is intrinsically complex and has sadly not been well documented nor commented.
+We published a web site showing videos and interactive examples to complement this report. It is available at \href{https://sidneybovet.github.io/amplified-embodiment/}{\textit{sidneybovet.github.io/amplified-embodiment}}.
+
+As briefly mentioned towards the end of Section \ref{sec:reachableSphere}, the code base used in this project, and particularly the retargeting part implementing the whole Egocentric Coordinate formalism, is problematic. Although well formated and making use of carefully chosen variable names, the code is intrinsically complex and has sadly not been well documented nor commented.
 
 This unfortunately forced us to reconsider the schedule for this project, and prevented us from performing the experiment described in Chapter \ref{Chapter4}. Luckily, we will be able to continue this project in the next six months thanks to a project grant by the Hassler Foundation, hence making it possible to run the experiment and publish its results in a subsequent report.
 
@@ -56,7 +58,7 @@ As one can observe on Figure \ref{fig:distortionExamples}, the distortion works 
 
 The behavior of the arm in Figure \ref{subfig:gamma6} is precisely the one we proposed to avoid using the reachable sphere described in Section \ref{sec:reachableSphere} but we do not report on it here because, as previously justified, we did not implement it in our experiment.
 
-An interactive web application where one may play with both the real arm position and the gain of the distortion, as well as toggling the presence or not of the reachable sphere, is available at \url{https://sidneybovet.github.io/amplified-embodiment/}. The reader is encouraged to play with the IK chain in order to get a better feeling for how the distortion works, especially how it behaves near the skin.
+An interactive web application is available on the web site mentioned above. One may play there with both the real arm position and the gain of the distortion, as well as toggling the presence or not of the reachable sphere. The reader is encouraged to play with the IK chain in order to get a better feeling for how the distortion works, especially how it behaves near the skin.
 
 In order to better understand how such a distortion applies to a captured motion, Figure \ref{fig:realMocapDistortion} shows a subject performing a reaching motion towards the air target. The virtual hand is at the same position on all three pictures, but as one may observe, the subject has his hand at different positions. This is due to the fact that in one case (higher hand position) no distortion was applied, while the other (lower hand position) sees a distortion of \SI{3}{\decibel}. The central image shows the superimposition of the two poses in order to better see the position discrepancy.
 
@@ -74,7 +76,7 @@ In order to better understand how such a distortion applies to a captured motion
         \includegraphics[width=\textwidth]{Figures/handPositionTarget.png}
     \end{subfigure}
         
-    \caption{Pictures of a subject, taken from the same point of view, reaching for the same target but with two different distortions of \SI{0}{\decibel} and \SI{3}{\decibel}, with a visual representation of where the target is (yellow dot). The left image shows the \SI{0}{\decibel}, the right one has a distortion of \SI{3}{\decibel}, and the center one is the superimposition of both images.}
+    \caption{Pictures of a subject, taken from the same point of view, reaching for the same target but with two different distortions of \SI{0}{\decibel} and \SI{3}{\decibel}, with a visual representation of where the target and virtual hand are (yellow dot and red arm). The left image shows the \SI{0}{\decibel}, the right one has a distortion of \SI{3}{\decibel}, and the center one is the superimposition of both images.}
     \label{fig:realMocapDistortion}
 \end{figure}
 
@@ -82,4 +84,4 @@ This means that in order to perform the same perceived movement, the subject onc
 
 \section{Experiment}
 
----link to the summary video of the experiment---
+The aforementioned web site also displays two videos, the first one of which is summarizing the experiment process. As stated above, a second video shows some of the issues we encountered towards the end of the project, the resolution of which we will prioritize since these are the only reason we could not perform the experiment at the time of writing this report.
