@@ -56,6 +56,8 @@ headsepline, % Uncomment to get a line under the header
 \usepackage{mathtools}
 \renewcommand{\vec}[1]{\mathbf{#1}} % in order to have the vectors in bold
 \DeclarePairedDelimiter{\norm}{\lVert}{\rVert} % for the nice double bars
+\usepackage{multirow} % for the fancy table in appendix A
+
 
 \usepackage[backend=bibtex,style=ieee,natbib=true]{biblatex} % Use the bibtex backend with the authoryear citation style (which resembles APA)
 
@@ -192,11 +194,11 @@ With the rise of consumer-grade Virtual Reality (VR) technologies, high quality 
 
 One of these opportunity appears to be in the field of stroke rehabilitation. Due to the temporary lack of oxygen in parts of the brain, a stroke may result in partial paralysis of a limb. In such a case the rehabilitation process is long, tedious, and often demotivating. The way we treat this condition is through exercises and movements of the affected limb, hence making use of neuroplasticity in order to fully recover the original range of motion. This process however is really demotivating, because the patients are forced to face their handicap. We however believe that there is a simple, yet effective solution that will help stroke patients stay motivated, and that is by providing them which a VR game that transposes and amplifies their movements in a virtual environment.
 
-In the past few years, huge improvements have been achieved in the area of motion capture. New techniques allow for instance to reflect skin-to-skin contacts more precisely than ever, such as the Egocentric Coordinate formalism. We propose a modification of this coordinate system in order to apply a distortion to the movements of a tracked performer, while preserving self-haptic consistency. In other words, we introduce a way to create an application in which, when patients touche their skin, the virtual avatar does so as well, but when they lift their hand \SI{10}{\centi\meter} avove the surface of the skin, the avatar may show a \SI{20}{\centi\meter} gap if a doubling distortion is applied.
+In the past few years, huge improvements have been achieved in the area of motion capture. New techniques allow for instance to reflect skin-to-skin contacts more precisely than ever, such as the Egocentric Coordinate formalism. We propose a modification of this coordinate system in order to apply a distortion to the movements of a tracked performer, while preserving self-haptic consistency. In other words, we introduce a way to create an application in which, when patients touch their skin, the virtual avatar does so as well, but when they lift their hand \SI{10}{\centi\meter} above the surface of the skin, the avatar may show a \SI{20}{\centi\meter} gap if a doubling distortion is applied.
 
-We also propose an experiment in order to understand how well we accept a movement distortion, which is key here because we do not want patients to detect the distortion, or at least not too heavily. Indeed, the goal is to keep them motivated at a reaching task of some sort, but if their eyes constantly remind them that what they see is not what they achieve, we might loose the `anti-demotivation' effect we are looking for.
+We also propose an experiment in order to understand how well we accept a movement distortion, which is key here because we do not want patients to detect the distortion, or at least not too heavily. Indeed, the goal is to keep them motivated at a reaching task of some sort, but if their eyes constantly remind them that what they see is not what they achieve, we might loose the motivating effect we are looking for.
 
-This work therefore lays the foundation for further reasearch in the field of amplified embodied interations, which surely will result in dramatic improvement in treatment time and life quality for stroke patients.
+This work therefore lays the foundation for further research in the field of amplified embodied interactions, which surely will result in dramatic improvement in terms of treatment time and life quality for stroke patients.
 
 \bigskip
 \textbf{Keywords}: \keywordnames

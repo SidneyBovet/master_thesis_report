@@ -8,7 +8,7 @@ In this chapter we begin by describing how we modified the preexisting motion re
 
 \section{Egocentric Coordinates Distortion}
 
-As briefly mentioned in Chapter \ref{Chapter2}, we are taking advantage of the Egocentric Coordinate formalism in order to introduce our distortion model. We modify each relative displacement vectors $\vec{v}_i$ according to some value $\gamma$. A distorted position $\vec{p}_j$ is thus obtained using equation \ref{eq:DistortionOperation}, which has been obtained by modifying Equation \ref{eq:EgocentricPosition} using a function that we are going to detail in the next few lines.
+As briefly mentioned in Chapter \ref{Chapter2}, we are taking advantage of the Egocentric Coordinate formalism in order to introduce our distortion model. We modify each relative displacement vectors $\vec{v}_i$ according to some value $\gamma$. A distorted position $\vec{p}_j$ is thus obtained using the equation \ref{eq:DistortionOperation} below, which has been obtained by modifying Equation \ref{eq:EgocentricPosition} using a function that we are going to detail in the next few lines.
 
 \begin{equation}
 \label{eq:DistortionOperation}
@@ -96,7 +96,7 @@ Note that we changed the `$\gamma $' parameter for `$s$', which is due to this p
         \caption{Cosine}
         \label{fig:otherDistortionsCos}
     \end{subfigure}
-    \caption{Multiple instances of the two alternative distortion functions we propose in section \ref{sec:otherFunctions}. Both have been plotted using $a_r = 1$, only varying the strength parameter $s$.}
+    \caption{Multiple instances of the two alternative distortion functions we propose in Section \ref{sec:otherFunctions}. Both have been plotted using $a_r = 1$, only varying the strength parameter $s$.}
     \label{fig:otherDistortions}
 \end{figure}
 
@@ -139,25 +139,23 @@ This indeed has a physical justification: a point-source geometrically dilutes i
 
 Molla et al. \cite{molla2017egocentric} proposed a special case for handling the position of the feet: they use the orthogonal projection of the ankle on the floor as an additional reference point, hence adding one Egocentric component to the coordinates of that joint.
 
----mess with the figure---
-
 \begin{figure}[h]
     \centering
-    \begin{subfigure}[b]{.35\textwidth}
+    \begin{subfigure}[b]{.3\textwidth}
         \includegraphics[width=\textwidth]{Figures/arm-full-nosphere.png}
     \end{subfigure}
     ~
-    \begin{subfigure}[b]{.35\textwidth}
+    \begin{subfigure}[b]{.3\textwidth}
         \includegraphics[width=\textwidth]{Figures/arm-full-sphere.png}
     \end{subfigure}
 
     \vspace{1em}
 
-    \begin{subfigure}[b]{.24\textwidth}
+    \begin{subfigure}[b]{.2\textwidth}
         \includegraphics[width=\textwidth]{Figures/arm-mid-nosphere.png}
     \end{subfigure}
     \hspace{4em}
-    \begin{subfigure}[b]{.35\textwidth}
+    \begin{subfigure}[b]{.3\textwidth}
         \includegraphics[width=\textwidth]{Figures/arm-mid-sphere.png}
     \end{subfigure}
 
@@ -171,7 +169,9 @@ In the experiment described in Chapter \ref{Chapter4} we however did not impleme
 
 \section{Testing Application}
 \label{sec:testingApp}
-The simple kinematic chain we used for preliminary testing and to obtain for instance Figure \ref{fig:armExamples} was built using the description of the Egocentric Formalism provided by \cite{molla2016precise}. For ease of use, we integrated a preexisting IK solver to this implementation, namely the FABRIK algorithm proposed by Aristidou and Lasenby \cite{aristidou2011fabrik}. We encountered one issue when using this testing application once the distortion was implemented: depending on the sequence of movements of the IK goal, the actual kinematic chain and the distorted one began to have diverging intermediary joint positions, such as shown in Figure \ref{fig:divergence}.
+The simple kinematic chain we used for preliminary testing and to obtain for instance Figure \ref{fig:armExamples} was built using the description of the Egocentric Formalism provided by \cite{molla2016precise}. For ease of use, we integrated a preexisting IK solver to this implementation, namely the FABRIK algorithm proposed by Aristidou and Lasenby \cite{aristidou2011fabrik}.
+
+We encountered one issue when using this testing application once the distortion was implemented: depending on the sequence of movements of the IK goal, the actual kinematic chain and the distorted one began to have diverging intermediary joint positions, such as shown in Figure \ref{fig:divergence}.
 
 \begin{figure}[h]
     \centering
@@ -196,4 +196,6 @@ The simple kinematic chain we used for preliminary testing and to obtain for ins
     \label{fig:divergence}
 \end{figure}
 
-Two options exist in order to solve this issue. The first one is to introduce secondary IK goals at what can be considered as the `ellbows' of the arm. The second option is to re-initialize the distorted arm at the real arm pose before running the IK iterations. While we chose the latter for our testing application, the former is probably better-suited for real world applications, where markers are available all over the body and may serve to determine such secondary IK goal.
+Two options exist in order to solve this issue. The first one is to introduce secondary IK goals at what can be considered as the `ellbows' of the arm. The second option is to re-initialize the distorted arm at the real arm pose before running the IK iterations.
+
+While we chose the latter for our testing application, the former is probably better-suited for real world applications, where markers are available all over the body and may serve to determine such secondary IK goal.
