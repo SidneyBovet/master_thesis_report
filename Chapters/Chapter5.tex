@@ -52,16 +52,20 @@ A few examples of distortion and the resulting poses have already been shown on 
     \label{fig:distortionExamples}
 \end{figure}
 
-As one can observe on Figure \ref{fig:distortionExamples}, the distortion works the way it is expected to. As a reminder, a gain of $\pm\SI{6}{\decibel}$ corresponds to a movement whose amplitude is multiplied by $\pm 3.981$ which means it is changed almost fourfold. A value of $\gamma = \pm\SI{1}{\decibel}$ similarly modifies a movement by $\pm 1.259$. The behavior of the arm in Figure \ref{subfig:gamma6} is precisely the one we proposed to avoid using the reachable sphere described in Section \ref{sec:reachableSphere} but we do not report on it here because, as previously justified, we did not implement it in our experiment.
+As one can observe on Figure \ref{fig:distortionExamples}, the distortion works the way it is expected to. As a reminder, a gain of $\pm\SI{6}{\decibel}$ corresponds to a movement whose amplitude is respectively multiplied by $3.981$ and $0.251$, which means it is changed almost fourfold in each direction with respect to a non distorted one. A value of $\gamma = \pm\SI{1}{\decibel}$ similarly modifies a movement by $1.259$ or $0.794$.
 
-An interactive web application where one may play with both the real arm position and the gain of the distortion is available at \url{https://sidneybovet.github.io/amplified-embodiment/}. The reader is encouraged to go there and play with the IK chain in order to get a better feeling for how the distortion works, especially how it behaves near the skin.
+The behavior of the arm in Figure \ref{subfig:gamma6} is precisely the one we proposed to avoid using the reachable sphere described in Section \ref{sec:reachableSphere} but we do not report on it here because, as previously justified, we did not implement it in our experiment.
 
-In order to better understand how such a distortion applies to motion capture, Figure \ref{fig:realMocapDistortion} shows a subject performing a reaching motion towards the air target. The virtual hand is at the same position on both pictures but, as one may observe, the subject has his hand at different positions. This is due to the fact that in one case (higher hand position) no distortion was applied, while the other (lower hand position) sees a distortion of \SI{3}{\decibel}.
+An interactive web application where one may play with both the real arm position and the gain of the distortion, as well as toggling the presence or not of the reachable sphere, is available at \url{https://sidneybovet.github.io/amplified-embodiment/}. The reader is encouraged to play with the IK chain in order to get a better feeling for how the distortion works, especially how it behaves near the skin.
 
-This means that in order to perform the same perceived movement, 
+In order to better understand how such a distortion applies to a captured motion, Figure \ref{fig:realMocapDistortion} shows a subject performing a reaching motion towards the air target. The virtual hand is at the same position on all three pictures, but as one may observe, the subject has his hand at different positions. This is due to the fact that in one case (higher hand position) no distortion was applied, while the other (lower hand position) sees a distortion of \SI{3}{\decibel}. The central image shows the superimposition of the two poses in order to better see the position discrepancy.
 
 \begin{figure}[h]
     \centering
+    \begin{subfigure}[b]{.3\textwidth}
+        \includegraphics[width=\textwidth]{Figures/handPositionTargetNoDist.png}
+    \end{subfigure}
+    ~
     \begin{subfigure}[b]{.3\textwidth}
         \includegraphics[width=\textwidth]{Figures/handPositionTwice.png}
     \end{subfigure}
@@ -70,9 +74,11 @@ This means that in order to perform the same perceived movement,
         \includegraphics[width=\textwidth]{Figures/handPositionTarget.png}
     \end{subfigure}
         
-    \caption{On the right is a superimposition of two pictures of a subject, taken from the same point of view, reaching for the same target but with a two different distortions of \SI{0}{\decibel} and \SI{3}{\decibel}. The left image shows only the \SI{3}{\decibel} with a visual representation of where the target is (yellow dot).}
+    \caption{Pictures of a subject, taken from the same point of view, reaching for the same target but with two different distortions of \SI{0}{\decibel} and \SI{3}{\decibel}, with a visual representation of where the target is (yellow dot). The left image shows the \SI{0}{\decibel}, the right one has a distortion of \SI{3}{\decibel}, and the center one is the superimposition of both images.}
     \label{fig:realMocapDistortion}
 \end{figure}
+
+This means that in order to perform the same perceived movement, the subject once had to cover the whole distance between his leg and the target, and could in a second time roughly travel two times less in order to reach that target.
 
 \section{Experiment}
 
