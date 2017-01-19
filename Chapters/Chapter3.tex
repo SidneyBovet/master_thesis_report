@@ -139,6 +139,8 @@ This indeed has a physical justification: a point-source geometrically dilutes i
 
 Molla et al. \cite{molla2017egocentric} proposed a special case for handling the position of the feet: they use the orthogonal projection of the ankle on the floor as an additional reference point, hence adding one Egocentric component to the coordinates of that joint.
 
+---mess with the figure---
+
 \begin{figure}[h]
     \centering
     \begin{subfigure}[b]{.35\textwidth}
@@ -148,9 +150,9 @@ Molla et al. \cite{molla2017egocentric} proposed a special case for handling the
     \begin{subfigure}[b]{.35\textwidth}
         \includegraphics[width=\textwidth]{Figures/arm-full-sphere.png}
     \end{subfigure}
-    
+
     \vspace{1em}
-    
+
     \begin{subfigure}[b]{.24\textwidth}
         \includegraphics[width=\textwidth]{Figures/arm-mid-nosphere.png}
     \end{subfigure}
@@ -158,7 +160,7 @@ Molla et al. \cite{molla2017egocentric} proposed a special case for handling the
     \begin{subfigure}[b]{.35\textwidth}
         \includegraphics[width=\textwidth]{Figures/arm-mid-sphere.png}
     \end{subfigure}
-        
+
     \caption{An example of undesired pose behavior near full arm extension (top left) and how we propose to solve it (top right) using the reachable sphere, in light yellow and outlined on the top right corner for readability. A pose far from the surface of the sphere is almost not affected (bottom left and right). The captured arms are in gray, the distorted ones in red, and the red lines represent the distorted coordinates.}
     \label{fig:reachableSphere}
 \end{figure}

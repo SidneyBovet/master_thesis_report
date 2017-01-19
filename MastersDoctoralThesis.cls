@@ -318,14 +318,14 @@ KOMA-script documentation for details.}]{fancyhdr}
 	\bigskip
 	{\huge\textit{\abstractname} \par}
 	\bigskip
-	{\normalsize \facname \par} % Faculty name
-	{\normalsize \deptname \par} % Department name
-	\bigskip
-	{\normalsize \degreename\par} % Degree name
-	\bigskip
+%	{\normalsize \facname \par} % Faculty name
+%	{\normalsize \deptname \par} % Department name
+%	\bigskip
+%	{\normalsize \degreename\par} % Degree name
+%	\bigskip
 	{\normalsize\bfseries \@title \par} % Thesis title
-	\medskip
-	{\normalsize \byname{} \authorname \par} % Author name
+%	\medskip
+%	{\normalsize \byname{} \authorname \par} % Author name
 	\bigskip
 	\end{center}
 }

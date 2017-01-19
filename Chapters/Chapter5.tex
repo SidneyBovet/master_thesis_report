@@ -3,7 +3,7 @@
 \chapter{Results and Discussion}
 \label{Chapter5}
 
-We published a web site showing videos and interactive examples to complement this report. It is available at \href{https://sidneybovet.github.io/amplified-embodiment/}{\textit{sidneybovet.github.io/amplified-embodiment}}.
+We published a web site showing videos and interactive examples to complement this report. It is available at \href{https://distortion.sbovet.ch/}{\textit{distortion.sbovet.ch}}.
 
 As briefly mentioned towards the end of Section \ref{sec:reachableSphere}, the code base used in this project, and particularly the retargeting part implementing the whole Egocentric Coordinate formalism, is problematic. Although well formated and making use of carefully chosen variable names, the code is intrinsically complex and has sadly not been well documented nor commented.
 
@@ -32,8 +32,8 @@ A few examples of distortion and the resulting poses have already been shown on 
         \includegraphics[width=\textwidth]{Figures/distortions/distortions-1.png}
         \caption{$\gamma = -1$}
     \end{subfigure}
-    
-    
+
+
     \begin{subfigure}[b]{.3\textwidth}
         \includegraphics[width=\textwidth]{Figures/distortions/distortions1.png}
         \caption{$\gamma = 1$}
@@ -48,7 +48,7 @@ A few examples of distortion and the resulting poses have already been shown on 
         \includegraphics[width=\textwidth]{Figures/distortions/distortions6.png}
         \caption{$\gamma = 6$}
     \end{subfigure}
-        
+
     \caption{An example of distorted poses. As always, the captured arms are in gray, the distorted ones in red, and the red and gray lines respectively represent the distorted and original Egocentric coordinates.}
     \label{fig:distortionExamples}
 \end{figure}
@@ -70,7 +70,7 @@ In order to better understand how such a distortion applies to a captured motion
     \begin{subfigure}[b]{.4\textwidth}
         \includegraphics[width=\textwidth]{Figures/handPositionTarget.png}
     \end{subfigure}
-        
+
     \caption{Pictures of a subject, taken from the same point of view, reaching for the same target but with two different distortions of \SI{0}{\decibel} and \SI{3}{\decibel}, with a visual representation of where the target and virtual hand are (yellow dot and red arm). The left image had no distortion and the right one a distortion of \SI{3}{\decibel}.}
     \label{fig:realMocapDistortion}
 \end{figure}
