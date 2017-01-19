@@ -4,7 +4,7 @@
 
 \label{Chapter3} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
-In this chapter we begin by describing how we modified the preexisting motion retargeting software in order to obtain the desired distorted behavior, and then we detail our distortion model and what function we used. The end of the chapter is dedicated to additional adaptations we propose to the work of Molla et al.\ \cite{molla2017egocentric}.
+In this chapter we begin by describing how we modified the preexisting motion retargeting software in order to obtain the desired distorted behavior, and then we detail our distortion model and what function we used. The end of the chapter is dedicated to additional adaptations we propose to complement the work of Molla et al.\ \cite{molla2017egocentric}.
 
 \section{Egocentric Coordinates Distortion}
 
@@ -21,13 +21,13 @@ Figure \ref{fig:armExamples} shows an example of a distorted position obtained b
     \centering
     \begin{subfigure}[b]{0.2\textwidth}
         \includegraphics[width=\textwidth]{Figures/simple_distortion_3.png}
-        \caption{$\gamma = 3$}
+        \caption{$\gamma = \SI{3}{\decibel}$}
     \end{subfigure}
     ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
     %(or a blank line to force the subfigure onto a new line)
     \begin{subfigure}[b]{0.2\textwidth}
         \includegraphics[width=\textwidth]{Figures/simple_distortion_-3.png}
-        \caption{$\gamma = -3$}
+        \caption{$\gamma = \SI{-3}{\decibel}$}
     \end{subfigure}
     \caption{Two examples of our linear distortion applied to a simple IK arm with multiple segments. The gray lines are the relative displacement vectors and the red ones are their distorted counterparts. Similarly, the gray arms represent the pose the real arm would take whereas the red ones show the two resulting distorted poses.}
     \label{fig:armExamples}
@@ -56,7 +56,7 @@ Formally, we are modifying each relative displacement vector as specified in Equ
 D(\vec{v},\gamma ) = \hat{\vec{v}} \cdot \norm{\vec{v}} \cdot 10^{\frac{\gamma}{10}}
 \end{equation}
 
-In this equation, $\vec{v}$ is a vector, $\hat{\vec{v}}$ is its normalized counterpart, and $\gamma \in \mathbb{R}$. The last factor, $10^{\frac{\gamma}{10}}$, comes from the definition of a gain, in \SI{}{\decibel} \cite{book:decibel}, based on two values $P_1$ and $P_2$ of a single, yet undefined unit:
+In this equation, $\vec{v}$ is a vector, $\hat{\vec{v}}$ is its normalized counterpart, and $\gamma \in \mathbb{R}$. The last factor, $10^{\frac{\gamma}{10}}$, comes from the definition of a gain, in \SI{}{\decibel} \cite{book:decibel}, based on the ratio of two values $P_1$ and $P_2$ of a single, yet undefined unit:
 
 \begin{align*}
     \text{gain} = \gamma &= 10 \cdot \log_{10} (\frac{P_1}{P_2})\\
@@ -64,7 +64,7 @@ In this equation, $\vec{v}$ is a vector, $\hat{\vec{v}}$ is its normalized count
     \text{slope} &= 10^{\frac{\gamma}{10}}.
 \end{align*}
 
-A value of $\gamma = 3$ thus indicates that the virtual movement will roughly be twice the amplitude of the registered one ($1.995 \approx 2$), while a gain of $\gamma = -3$ means one will have to travel twice as big a distance (\num{0.501}) as perceived in order to cover it. Figure \ref{fig:armExamples} shows two examples of distortion, and Figure \ref{fig:plotsOfGamma} gives a few instances of this linear distortion functions with varying values of $\gamma $ and the corresponding slope $a$.
+A value of $\gamma = 3$ thus indicates that the virtual movement will roughly be twice the amplitude of the registered one ($1.995 \approx 2$), while a gain of $\gamma = -3$ means one will have to travel twice as big a distance ($0.501 \approx $ \textonehalf) as perceived in order to cover it. Figure \ref{fig:armExamples} shows two examples of distortion, and Figure \ref{fig:plotsOfGamma} gives a few instances of this linear distortion functions with varying values of $\gamma $ and the corresponding slope $a$.
 
 \section{Other Functions}
 \label{sec:otherFunctions}
@@ -118,26 +118,18 @@ Observations made on the previous function led us to designing this second funct
     f(d, a_r, s) = \frac{s}{2}\Bigg(1 - \cos\Big(\frac{2\pi}{a_r} \cdot d\Big)\Bigg) + d
 \end{equation*}
 
-Obviously, being smoother in terms of velocity near both ends of the distorted area leads to trade-offs. In our case the function introduces higher velocity discrepancies at other locations, as one can observe on Figure \ref{fig:otherDistortionsCos}. At high strengths (e.g.\ $s=0.4$) the function even forces the virtual hand to go backwards in order to rejoin the real position before approaching $a_r$.
+Obviously, being smoother in terms of velocity near both ends of the distorted area leads to trade-offs. In our case the function introduces higher velocity discrepancies at other locations, as one can observe on Figure \ref{fig:otherDistortionsCos}. At high strengths (e.g.\ $s=0.4$) the function even forces the virtual hand to go backwards in order to rejoin the real position before they approach $a_r$ together.
 
 Again, both of these functions are an attempt at fixing the behavior of the distortion when going further away from the skin, but further experimentation is needed in order to determine how they affect both our acceptation of a distorted movement as our own, and the SoE through their respective effects on the Sense of Agency.
 
-\section{Egocentric Normalization Factor}
-
-We added one more modification to the definition of the position proposed by \cite{molla2017egocentric} which we modified to obtain Equation \ref{eq:DistortionOperation}, and more precisely the way $\lambda $ is defined. As originally explained by \cite{molla2016precise} as well as in Section \ref{sec:egocentric}, it is computed as the product of two importance factors, proximity and orthogonality, respectively denoted $\lambda_p$ and $\lambda_\perp $.
-
-The former importance factor was initially defined as $\lambda_p = \frac{1}{\norm{\vec{v}}}$. In practice we find that this formula does not give enough importance to nearby body parts, and we decided to change it slightly as $\lambda_p = \frac{1}{\norm{\vec{v}}^2}$, thus becoming proportional to the inverse square of the distance between the surface and the point. We find this definition elegant since it matches the form of an inverse square law (such as Coulomb's law, or Netwton's law of universal gravitation), of the form:
-
-\begin{equation*}
-    \text{intensity} \propto \frac{1}{\text{distance}^2}
-\end{equation*}
-
-This indeed has a physical justification: a point-source geometrically dilutes its radiated energy, force, or any other conserved quantity in three-dimensional space, hence the influence of the inverse square of the distance between that point-source and a given surface. In our case we can consider the ``amount of distortion'' received by any point in space in a similar way. Moreover, this gives more consistent practical results in the sense that when moving the hand horizontally in front of the torso, that hand is less affected by other body parts such as the legs or the head.
+Another attempt that should equally be studied is the one described below using an additional reference point near the end of the reachable volume.
 
 \section{Reachable Sphere}
 \label{sec:reachableSphere}
 
 Molla et al. \cite{molla2017egocentric} proposed a special case for handling the position of the feet: they use the orthogonal projection of the ankle on the floor as an additional reference point, hence adding one Egocentric component to the coordinates of that joint.
+
+We think that interactions close to the far end of the reachable volume of each arm may benefit from such an additional reference point as well, especially when considering distortions made to the wrist position. To do so, we propose the addition of a sphere of radius equal to the arm's length and centered on the shoulder of that arm, that we call ``reachable sphere''. When approaching full arm extension, the position of the wrist relative to that reachable sphere becomes prominent and forces to distortion to act as if the hand was approaching another body part: it would tend towards a null distortion. Figure \ref{fig:reachableSphere} illustrate the type of pose behavior we attempt to avoid by introducing this reachable sphere, as well as shows that it does almost not affect movements closer to other body parts.
 
 \begin{figure}[h]
     \centering
@@ -163,15 +155,23 @@ Molla et al. \cite{molla2017egocentric} proposed a special case for handling the
     \label{fig:reachableSphere}
 \end{figure}
 
-We think that interactions close to the far end of the reachable volume of each arm may benefit from such an additional reference point as well, especially when considering distortions made to the wrist position. To do so, we propose the addition of a sphere of radius equal to the arm's length and centered on the shoulder of that arm, that we call ``reachable sphere''. When approaching full arm extension, the position of the wrist relative to that reachable sphere becomes prominent and forces to distortion to act as if the hand was approaching one's skin: it would tend towards a null distortion. Figure \ref{fig:reachableSphere} illustrate the type of pose behavior we attempt to avoid by introducing this reachable sphere, as well as shows that it does almost not affect movements closer to other body parts.
-
 In the experiment described in Chapter \ref{Chapter4} we however did not implement this reachable sphere for two reasons. First, it greatly alters the linear nature of the distortion function we proposed in Section \ref{sec:linearFunction} and thus is not desired in such an experimental context. The second reason is more practical: the retargeting software is quite complex and unfortunately poorly commented, which makes such a modification very hard to achieve within the timespan of this project.
+
+\section{Egocentric Normalization Factor}
+
+We added one more modification to the definition of the position proposed by \cite{molla2017egocentric} which we modified to obtain Equation \ref{eq:DistortionOperation}, and more precisely the way $\lambda $ is defined. As originally explained by \cite{molla2016precise} as well as in Section \ref{sec:egocentric}, it is computed as the product of two importance factors, proximity and orthogonality, respectively denoted $\lambda_p$ and $\lambda_\perp $.
+
+The former importance factor was initially defined as $\lambda_p = \frac{1}{\norm{\vec{v}}}$. In practice we find that this formula does not give enough importance to nearby body parts, and we decided to change it slightly as $\lambda_p = \frac{1}{\norm{\vec{v}}^2}$, thus becoming proportional to the inverse square of the distance between the surface and the point. We find this definition elegant since it matches the form of an inverse square law (such as Coulomb's law, or Netwton's law of universal gravitation), of the form:
+
+\begin{equation*}
+    \text{intensity} \propto \frac{1}{\text{distance}^2}
+\end{equation*}
+
+This indeed has a physical justification: a point-source geometrically dilutes its radiated energy, force, or any other conserved quantity in three-dimensional space, hence the influence of the inverse square of the distance between that point-source and a given surface. In our case we can consider the ``amount of distortion'' received by any point in space in a similar way. Moreover, this gives more consistent practical results in the sense that when moving the hand horizontally in front of the torso, that hand is less affected by other body parts such as the legs or the head.
 
 \section{Testing Application}
 \label{sec:testingApp}
 The simple kinematic chain we used for preliminary testing and to obtain for instance Figure \ref{fig:armExamples} was built using the description of the Egocentric Formalism provided by \cite{molla2016precise}. For ease of use, we integrated a preexisting IK solver to this implementation, namely the FABRIK algorithm proposed by Aristidou and Lasenby \cite{aristidou2011fabrik}.
-
-We encountered one issue when using this testing application once the distortion was implemented: depending on the sequence of movements of the IK goal, the actual kinematic chain and the distorted one began to have diverging intermediary joint positions, such as shown in Figure \ref{fig:divergence}.
 
 \begin{figure}[h]
     \centering
@@ -192,9 +192,11 @@ We encountered one issue when using this testing application once the distortion
         \caption{With re-initialization.}
         \label{subfig:initDivergence}
     \end{subfigure}
-    \caption{In gray are the real arms whose movements are supposedly captured through their respective IK goals (yellow spheres inside the last capsule), and in red are the distorted poses, which are the ones a end user would see in the virtual environment. An example of initial IK chains (left) and the diverging poses after a certain sequence of movements (center). The pose can then be corrected by initializing the distorted arm at the real arm's position (right).}
+    \caption{In gray are the real arms whose movements are supposedly captured through their respective IK goals (yellow spheres inside the last capsule), and in red are the distorted poses, which are the ones a end user would see in the virtual environment. An example of initial IK chains (left) and the diverging poses after a certain sequence of movements (center). The pose can however be corrected by initializing the distorted arm at the real arm's position (right).}
     \label{fig:divergence}
 \end{figure}
+
+We encountered one issue when using this testing application once the distortion was implemented: depending on the sequence of movements of the IK goal, the actual kinematic chain and the distorted one began to have diverging intermediary joint positions, such as shown in Figure \ref{fig:divergence}.
 
 Two options exist in order to solve this issue. The first one is to introduce secondary IK goals at what can be considered as the `ellbows' of the arm. The second option is to re-initialize the distorted arm at the real arm pose before running the IK iterations.
 

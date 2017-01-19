@@ -3,11 +3,11 @@
 \chapter{Results and Discussion}
 \label{Chapter5}
 
-We published a web site showing videos and interactive examples to complement this report. It is available at \href{https://sbovet.ch/distortion/}{\texttt{sbovet.ch/distortion}}.
+We published a web site showing videos and interactive examples to complement this report. It is available at \url{https://sbovet.ch/distortion/}.
 
 As briefly mentioned towards the end of Section \ref{sec:reachableSphere}, the code base used in this project, and particularly the retargeting part implementing the whole Egocentric Coordinate formalism, is problematic. Although well formated and making use of carefully chosen variable names, the code is intrinsically complex and has sadly not been well documented nor commented.
 
-This unfortunately forced us to reconsider the schedule for this project due to issues exposed in a video available on the aforementioned web page. This rescheduling prevented us from performing the experiment described in Chapter \ref{Chapter4} at the time of writing this report. Luckily, we will be able to continue this project in the next six months thanks to a project grant by the Hassler Foundation, hence making it possible to run the experiment and publish its results in a subsequent report.
+This unfortunately forced us to reconsider the schedule for this project due to issues exposed in a video available on the aforementioned web page, as well as described in Section \ref{sec:issues}. This rescheduling prevented us from performing the experiment described in Chapter \ref{Chapter4} at the time of writing this report. Luckily, we will be able to continue this project in the next six months thanks to a project grant by the Hassler Foundation, hence making it possible to run the experiment and publish its results in a subsequent report.
 
 The remainder of this chapter therefore does not describe the results of the experiment itself, but what we have been able to achieve software-wise in terms of distortion and experiment implementation.
 
@@ -20,33 +20,33 @@ A few examples of distortion and the resulting poses have already been shown on 
     \centering
     \begin{subfigure}[b]{.3\textwidth}
         \includegraphics[width=\textwidth]{Figures/distortions/distortions-6.png}
-        \caption{$\gamma = -6$}
+        \caption{$\gamma = \SI{-6}{\decibel}$}
     \end{subfigure}
     ~
     \begin{subfigure}[b]{.3\textwidth}
         \includegraphics[width=\textwidth]{Figures/distortions/distortions-3.png}
-        \caption{$\gamma = -3$}
+        \caption{$\gamma = \SI{-3}{\decibel}$}
     \end{subfigure}
     ~
     \begin{subfigure}[b]{.3\textwidth}
         \includegraphics[width=\textwidth]{Figures/distortions/distortions-1.png}
-        \caption{$\gamma = -1$}
+        \caption{$\gamma = \SI{-1}{\decibel}$}
     \end{subfigure}
 
 
     \begin{subfigure}[b]{.3\textwidth}
         \includegraphics[width=\textwidth]{Figures/distortions/distortions1.png}
-        \caption{$\gamma = 1$}
+        \caption{$\gamma = \SI{1}{\decibel}$}
     \end{subfigure}
     ~
     \begin{subfigure}[b]{.3\textwidth}
         \includegraphics[width=\textwidth]{Figures/distortions/distortions3.png}
-        \caption{$\gamma = 3$}
+        \caption{$\gamma = \SI{3}{\decibel}$}
     \end{subfigure}
     ~
     \begin{subfigure}[b]{.3\textwidth}
         \includegraphics[width=\textwidth]{Figures/distortions/distortions6.png}
-        \caption{$\gamma = 6$}
+        \caption{$\gamma = \SI{6}{\decibel}$}
     \end{subfigure}
 
     \caption{An example of distorted poses. As always, the captured arms are in gray, the distorted ones in red, and the red and gray lines respectively represent the distorted and original Egocentric coordinates.}

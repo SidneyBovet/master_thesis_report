@@ -398,7 +398,7 @@ KOMA-script documentation for details.}]{fancyhdr}
 \checktoopen
 \tttypeout{\acknowledgementname}
 \thispagestyle{plain}
-\begin{center}{\huge\textit{\acknowledgementname}\par}\end{center}
+\begin{center}{\huge\textit{\acknowledgementname}\par}\bigskip\end{center}
 }
 {
 \vfil\vfil\null
